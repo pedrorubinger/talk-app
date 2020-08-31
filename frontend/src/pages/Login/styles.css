@@ -1,0 +1,115 @@
+/* LOGIN PAGE CSS */
+
+#login-container {
+    width: 100%;
+    background-image: url("../../assets/dark-background.jpg");
+    height: 100vh;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+a#link-back-to-home {
+    color: #fff;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    transition: .2s;
+}
+
+a#link-back-to-home:hover {
+    cursor: pointer;
+    text-shadow: 0px 0px 1px rgb(212, 212, 212);
+}
+
+#login-form-container {
+    width: 500px;
+    background-color: rgb(250, 250, 250);
+    border: 1px solid rgb(209, 209, 209);
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px rgb(190, 190, 190);
+    display: flex;
+    flex-direction: column;
+}
+
+#login-form-container h1 {
+    /* color: rgb(63, 63, 63); */
+    color: rgb(56, 56, 56);
+    text-shadow: 0px 0px 2px rgb(216, 216, 216);
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 1.2rem;
+}
+
+#login-form-container h1:hover {
+    cursor: pointer;
+    text-shadow: 0px 0px 1px rgb(170, 170, 170);
+}
+
+#login-form-container h2 {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 2rem;
+    color: rgb(3, 60, 134);
+    text-transform: uppercase;
+}
+
+#login-form-container #login-form {
+    height: 100%;
+    width: 100%;
+}
+
+#login-form-container #login-form div#username-group,
+#login-form-container #login-form div#password-group,
+#login-form-container #login-form div#email-group  {
+    width: 250px;
+    margin: auto;
+    /* height: 100px; */
+}
+
+#login-form-container #login-form div#username-group {
+    margin-top: 35px;
+    margin-bottom: 20px;
+}
+
+#login-form-container #login-form div#email-group {
+    margin-bottom: 20px;
+}
+
+#login-form-container #login-form .login-link-questions {
+    /* background-color: red; */
+    margin-top: 1.4rem;
+    display: flex;
+    width: 100%;
+    height: 15px;
+    justify-content: center;
+}
+
+
+#login-form-container #login-form a#forgot-password-link {
+    font-size: .7rem;
+    color: rgb(48, 48, 48);
+    color: rgb(113, 65, 182);
+    transition: .3s;
+}
+
+#login-form-container #login-form a#link-sign-up {
+    font-size: .7rem;
+    margin-left: .7rem;
+    color: rgb(48, 48, 48);
+    color: rgb(113, 65, 182);
+    transition: .3s;
+}
+
+#login-form-container #login-form a#forgot-password-link:hover,
+#login-form-container #login-form a#link-sign-up:hover {
+    color: rgb(115, 39, 138);
+}
+
+#login-form-container #login-form button.sign-button {
+    width: 250px;
+    margin: 1.5rem auto 2.4rem auto;
+    display: flex;
+    justify-content: center;
+}

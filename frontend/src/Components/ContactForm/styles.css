@@ -1,0 +1,35 @@
+/* CONTACT FORM COMPONENT CSS */
+
+#contact-section #contact-form-container {
+    /* height: 500px; */
+    width: 100%;
+}
+
+#contact-form-container #contact-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 2rem;
+    margin-bottom: .5rem;
+}
+
+#contact-form-container #contact-form .contact-form-group {
+    margin: .8rem auto;
+    width: 300px;
+}
+
+#contact-form-container #contact-form .contact-form-group input#message {
+    height: 200px;
+}
+
+#contact-form-container #contact-form .contact-form-group textarea#message {
+    width: 100%;
+    resize: none;
+    font-family: 'Ubuntu', sans-serif, Verdana, Geneva, Tahoma;
+    padding: 12px;
+}
+
+#contact-form-container #contact-form button#contact-form-submit-button {
+    width: 300px;
+    margin: 1.3rem auto 0 auto;
+}

@@ -1,0 +1,20 @@
+/* DONATE FORM COMPONENT CSS */
+
+form#donate-form {
+    margin: 50px auto 50px auto;
+    /* background-color: orange; */
+    max-width: 400px;
+}
+
+form#donate-form .donate-container-group {
+    margin-top: 25px;
+}
+
+form#donate-form #donate-amount-input-group input {
+    width: 200px;
+}
+
+form#donate-form button#submit-donation-form-button {
+    width: 100px;
+    margin-top: 30px;
+}

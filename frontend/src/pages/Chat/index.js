@@ -49,7 +49,9 @@ export function Chat() {
                                 <div className="chat-info-contact-item">
                                     <img
                                         src={imgDefaultProfilePhoto}
-                                        className="chat-info-profile-photo" />
+                                        className="chat-info-profile-photo"
+                                        alt="profile"
+                                    />
                                     
                                     <div className="chat-info-contact-name">
                                         <p>John Doe</p>
@@ -62,7 +64,9 @@ export function Chat() {
                                 <div className="chat-info-contact-item">
                                     <img
                                         src={imgDefaultProfilePhoto}
-                                        className="chat-info-profile-photo" />
+                                        className="chat-info-profile-photo"
+                                        alt="profile"
+                                    />
                                     
                                     <div className="chat-info-contact-name">
                                         <p>John Doe</p>
@@ -75,7 +79,9 @@ export function Chat() {
                                 <div className="chat-info-contact-item">
                                     <img
                                         src={imgDefaultProfilePhoto}
-                                        className="chat-info-profile-photo" />
+                                        className="chat-info-profile-photo"
+                                        alt="profile"
+                                    />
                                     
                                     <div className="chat-info-contact-name">
                                         <p>John Doe</p>
@@ -88,7 +94,9 @@ export function Chat() {
                                 <div className="chat-info-contact-item">
                                     <img
                                         src={imgDefaultProfilePhoto}
-                                        className="chat-info-profile-photo" />
+                                        className="chat-info-profile-photo"
+                                        alt="profile"
+                                    />
                                     
                                     <div className="chat-info-contact-name">
                                         <p>John Doe</p>
@@ -101,7 +109,9 @@ export function Chat() {
                                 <div className="chat-info-contact-item">
                                     <img
                                         src={imgDefaultProfilePhoto}
-                                        className="chat-info-profile-photo" />
+                                        className="chat-info-profile-photo"
+                                        alt="profile"
+                                    />
                                     
                                     <div className="chat-info-contact-name">
                                         <p>John Doe</p>
@@ -114,7 +124,9 @@ export function Chat() {
                                 <div className="chat-info-contact-item">
                                     <img
                                         src={imgDefaultProfilePhoto}
-                                        className="chat-info-profile-photo" />
+                                        className="chat-info-profile-photo"
+                                        alt="profile"
+                                    />
                                     
                                     <div className="chat-info-contact-name">
                                         <p>John Doe</p>
@@ -127,7 +139,9 @@ export function Chat() {
                                 <div className="chat-info-contact-item">
                                     <img
                                         src={imgDefaultProfilePhoto}
-                                        className="chat-info-profile-photo" />
+                                        className="chat-info-profile-photo"
+                                        alt="profile"
+                                    />
                                     
                                     <div className="chat-info-contact-name">
                                         <p>John Doe</p>

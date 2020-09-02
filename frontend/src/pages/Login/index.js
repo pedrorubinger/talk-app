@@ -8,7 +8,7 @@ import './styles.css';
 export function Login(props) {
     return(
         <div id="login-container">
-            <Link id="link-back-to-home" to="/">
+            <Link className="link-back-to-home" to="/">
                 <AiFillHome size="18" color="#fff" style={{ marginRight: '8px' }} />Back to home
             </Link>
 

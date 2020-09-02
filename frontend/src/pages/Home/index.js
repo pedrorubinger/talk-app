@@ -11,7 +11,7 @@ import imgCardFive from '../../assets/card5.jpg';
 import imgCardSix from '../../assets/card6.jpg';
 
 import './styles.css';
-import { ContactForm } from '../../Components/ContactForm';
+import { ContactForm } from '../../components/ContactForm';
 
 export function Home() {
     const history = useHistory();

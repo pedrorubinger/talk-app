@@ -9,20 +9,39 @@ export function Login(props) {
     return(
         <div id="login-container">
             <Link className="link-back-to-home" to="/">
-                <AiFillHome size="18" color="#fff" style={{ marginRight: '8px' }} />Back to home
+                <AiFillHome size="18" color="#fff" style={{ marginRight: '8px' }} />
+                <span>Back to home</span>
             </Link>
 
             <div id="login-form-container">
                 <h1 id="h1-logo" title="TalkApp - Chat Web Application">TalkApp <BsChatFill size="15"></BsChatFill></h1>
+                <Link to="/" id="login-back-to-home-link">
+                    Home            
+                </Link>
+
                 { props.formType === 'signin' ? <h2>Welcome back!</h2> : <h2>You're welcome!</h2>}
 
                 <form id="login-form">
+                    {
+                        props.formType === 'signup' ?
+                        <div id="real-name-group">
+                            <label htmlFor="real-name">Name</label>
+                            <input
+                                type="text"
+                                id="real-name"
+                                placeholder="Your real name"
+                                maxLength="40"
+                            ></input>
+                        </div>
+                            :
+                            ''
+                    }
                     <div id="username-group">
                         <label htmlFor="username">Username</label>
                         <input
                             type="text"
                             id="username"
-                            placeholder="Your username"
+                            placeholder={props.formType === 'signup' ? "Choose a username" : "Your username"}
                             maxLength="20"
                             autoFocus
                         ></input>

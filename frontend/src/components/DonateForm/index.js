@@ -14,7 +14,6 @@ export function DonateForm() {
                         name="donor-name"
                         placeholder="Your name"
                         max="50"
-                        autoFocus
                     >
                     </input>
                 </div>

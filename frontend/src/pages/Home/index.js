@@ -273,6 +273,7 @@ export function Home() {
                     <a
                         href="https://github.com/pedrorubinger"
                         target="_blank"
+                        rel="noopener noreferrer"
                         title="Visit author's GitHub page"    
                     >&nbsp;Pedro H. P. Rubinger</a></p>
             </footer>

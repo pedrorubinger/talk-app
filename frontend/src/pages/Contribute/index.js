@@ -28,6 +28,7 @@ export function Contribute() {
                     <a
                         href="https://github.com/pedrorubinger/talk-app"
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="button"
                         title="Go to the GitHub repository"
                     >

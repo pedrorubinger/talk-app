@@ -1,16 +1,14 @@
 import React from 'react';
-import {
-    BrowserRouter,
-    Switch,
-    Route
-} from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
+import PrivateRoute from './components/PrivateRoute';
 import { Home } from './pages/Home';
 import { Contribute } from './pages/Contribute';
 import { Chat } from './pages/Chat';
 import { Help } from './pages/Help';
 import { Login } from './pages/Login';
 import { NotFound } from './pages/NotFound';
+import { Profile } from './pages/Profile';
 
 export function Router() {
     return (
@@ -46,10 +44,16 @@ export function Router() {
               render={props => <Login {...props} formType="signup" />}
             />
 
-            <Route
+            <PrivateRoute
               exact
               path="/chat"
               component={ Chat }
+            />
+
+            <PrivateRoute
+              exact
+              path="/profile"
+              component={ Profile }
             />
             
             <Route

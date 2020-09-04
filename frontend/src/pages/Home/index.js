@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { FiUser } from 'react-icons/fi';
 import { BsChatFill } from 'react-icons/bs';
 
 import imgSmartphone from '../../assets/smartphone.png';
@@ -12,9 +13,44 @@ import imgCardSix from '../../assets/card6.jpg';
 
 import './styles.css';
 import { ContactForm } from '../../components/ContactForm';
+import { checkAuthentication, logout } from '../../services/auth';
+import { readCookie } from '../../utils/handlingCookies';
+import { USER_KEY } from '../../utils/constants';
 
 export function Home() {
     const history = useHistory();
+    const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
+    const [userNickname, setUserNickname] = useState("Failed");
+    const [ready, setReady] = useState(false);
+
+    useEffect(() => {
+        const token = readCookie(USER_KEY);
+
+        if(token) {
+            const getAuthentication = async () => {
+                checkAuthentication().then(response => {
+                    if(response.success) {
+                        setUserIsAuthenticated(true);
+                        setUserNickname(response.user_nick);
+                        setReady(true);
+                    }
+                    else {
+                        setUserIsAuthenticated(false);
+                        setReady(true);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                    setReady(true);
+                });
+            }
+    
+            getAuthentication();
+        } else
+            setReady(true);
+    }, []);
+
+    if(!ready)
+        return <h2 className="loading-page-message">Please wait. The page is loading...</h2>
 
     return(
         <div id="home-container">
@@ -23,9 +59,27 @@ export function Home() {
                     <h1 id="h1-logo" title="TalkApp - Chat Web Application">TalkApp <BsChatFill size="24"></BsChatFill></h1>
 
                     <ul>
-                        <li>
-                            <Link to="/#" title="About us">About</Link>
-                        </li>
+                        {
+                            userIsAuthenticated ?
+                                <li>
+                                    <Link to="/profile">
+                                        <FiUser size="14" style={{ marginRight: '7px'}} />{userNickname}
+                                    </Link>
+                                </li>
+                                :
+                                <li>
+                                    <a href="#about-section" title="About us">About</a>
+                                </li>
+                        }
+
+                        {
+                            userIsAuthenticated ? 
+                                <li>
+                                    <Link to="/chat" title="Chat">Chat</Link>
+                                </li>
+                                :
+                                ''
+                        }
 
                         <li>
                             <Link to="/help" title="Click for help">Help</Link>
@@ -35,9 +89,22 @@ export function Home() {
                             <Link to="/contribute" title="Click to contact us">Contribute</Link>
                         </li>
 
-                        <li>
-                            <Link to="/signin" title="Sign in to start using chat">Sign in</Link>
-                        </li>
+                        { !userIsAuthenticated ?
+                            <li>
+                                <Link to="/signin" title="Sign in to start using chat">
+                                    Sign In
+                                </Link>
+                            </li>
+                                :
+                            <li>
+                                <span
+                                    onClick={evt => logout()}
+                                    title="Sign in to start using chat"
+                                >
+                                    Sign Out
+                                </span>
+                            </li>
+                        }
                     </ul>
                 </nav>
 
@@ -102,8 +169,6 @@ export function Home() {
                         Ut sed enim gravida, auctor dui non, egestas ante.  
                     </p>
                 </section>
-                
-                {/* <hr></hr> */}
 
                 <section id="resources-section">
                     <h2>Resources</h2>
@@ -252,8 +317,6 @@ export function Home() {
                         </div>
                     </div>
                 </section>
-
-                {/* <hr></hr> */}
 
                 <section id="contact-section">
                     <h2>Contact us</h2>

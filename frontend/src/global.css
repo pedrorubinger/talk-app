@@ -52,6 +52,16 @@ button:hover {
   cursor: pointer;
 }
 
+button:disabled {
+  opacity: .5;
+}
+
+button:disabled:hover {
+  opacity: .5;
+  cursor: default;
+  background-color: rgb(41, 41, 41);
+}
+
 a.link-back-to-home {
   color: #fff;
   position: absolute;
@@ -63,4 +73,9 @@ a.link-back-to-home {
 a.link-back-to-home:hover {
   cursor: pointer;
   text-shadow: 0px 0px 1px rgb(212, 212, 212);
+}
+
+h2.loading-page-message {
+  text-align: center;
+  margin-top: 20px;
 }

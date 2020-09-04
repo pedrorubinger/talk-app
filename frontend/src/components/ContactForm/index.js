@@ -21,7 +21,7 @@ export function ContactForm() {
                         id="name"
                         name="name"
                         placeholder="Your name"
-                        maxLength="50"b
+                        maxLength="50"
                     />
                 </div>
 

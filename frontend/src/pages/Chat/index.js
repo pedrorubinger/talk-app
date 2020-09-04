@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { BsChatFill } from 'react-icons/bs';
-import { AiOutlineSend, AiFillHome } from 'react-icons/ai';
+import { AiFillHome } from 'react-icons/ai';
+import { MdSend } from 'react-icons/md';
 import { IoMdAttach } from 'react-icons/io';
 
 import './styles.css';
@@ -197,7 +198,7 @@ export function Chat() {
                         </textarea>
 
                         <button className="chat-button-message">
-                            <AiOutlineSend size="14"/>
+                            <MdSend size="14"/>
                         </button>
 
                         <button className="chat-button-message">

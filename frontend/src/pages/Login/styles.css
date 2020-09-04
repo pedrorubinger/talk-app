@@ -112,6 +112,20 @@
     justify-content: center;
 }
 
+#login-form-container #sign-in-error-box {
+    background-color: rgb(230, 69, 69);
+    margin: 0 auto 1.8rem auto;
+    padding: 11px 1rem;
+    font-size: .8rem;
+    color: #fff;
+    border-radius: 4px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: .85;
+}
+
 /* MEDIA QUERIES */
 @media (max-width: 900px) {
     #login-container a.link-back-to-home {

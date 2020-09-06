@@ -101,6 +101,20 @@
     border: 1px solid rgb(3, 151, 23);
 }
 
+#home-container header #header-presentation-container #header-title-message button#get-chat-access {
+    width: 170px;
+    margin-top: 1.8rem;
+    border-radius: 20px;
+    border: 1px solid rgb(216, 216, 216);
+    background-color: transparent;
+    transition: .6s;
+}
+
+#home-container header #header-presentation-container #header-title-message button#get-chat-access:hover {
+    border: 1px solid rgb(216, 216, 216);
+    background-color: rgb(3, 79, 150);
+}
+
 /* MAIN CONTENT - SECTIONS */
 #home-container main section {
     width: 100%;

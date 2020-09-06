@@ -62,7 +62,9 @@ export function Home() {
                         {
                             userIsAuthenticated ?
                                 <li>
-                                    <Link to="/profile">
+                                    <Link
+                                        to="/profile"
+                                        title="Access your profile and manage your information">
                                         <FiUser size="14" style={{ marginRight: '7px'}} />{userNickname}
                                     </Link>
                                 </li>
@@ -99,7 +101,7 @@ export function Home() {
                             <li>
                                 <span
                                     onClick={evt => logout()}
-                                    title="Sign in to start using chat"
+                                    title="Sign out"
                                 >
                                     Sign Out
                                 </span>
@@ -118,14 +120,24 @@ export function Home() {
                             ac porttitor mauris. Hasellus sed justo ac lacus hendrerit commodo a id est. Sign up to start using chat.
                         </p>
 
-                        <button
-                            id="button-sign-up"
-                            title="Sign up for free"
-                            onClick={() => history.push('/signup') }>
+                        {
+                            !userIsAuthenticated ?
+                            <button
+                                id="button-sign-up"
+                                title="Sign up for free"
+                                onClick={() => history.push('/signup') }>
                                 Sign up for free
-                        </button>
+                            </button>
+                            :
+                            <button
+                                id="get-chat-access"
+                                title="Click to get chat access"
+                                onClick={() => history.push('/chat')}
+                                >
+                                Get chat access
+                            </button>
+                        }
                     </div>
-                    
 
                     <img
                         id="header-smartphone-img"

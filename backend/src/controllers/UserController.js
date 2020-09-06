@@ -15,10 +15,10 @@ module.exports = {
             });
         }
 
-        // Encrypts the password
+        // 1. Encrypts the password
         const hashedPassword = await bcrypt.hash(request.body.user_password, 10);
 
-        // Gets the current date and time and formats them
+        // 2. Gets the current date and time and formats them
         const now = new Date();
         const year = now.getFullYear();
         const month = (now.getMonth() < 10 ? "0" + (now.getMonth() + 1) : (now.getMonth() + 1));
@@ -116,6 +116,65 @@ module.exports = {
                 user_nick: nick,
                 success: true,
                 token,
+            });
+        });
+    },
+
+    async checkEmail(request, response) {
+        const sqlGetUserByEmail = "SELECT user_email FROM user WHERE user_email = ?";
+
+        await connection.query(sqlGetUserByEmail, [request.params.user_email], async (err, results, fields) => {
+            if(err) {
+                return response.status(500).send({
+                    success: false,
+                    code: 500,
+                    message: "An unexpected error has occurred!"
+                });
+            }
+
+            if(results == null || results.length == 0) {
+                return response.status(404).send({
+                    success: false,
+                    code: 404,
+                    message: "The user was not found!"
+                });
+            }
+
+            return response.status(200).send({
+                success: true,
+                code: 200,
+                nick: results[0].user_nick,
+                email: results[0].user_email,
+                message: "The user was found!"
+            });
+        });
+    },
+
+    async checkNick(request, response) {
+        const sqlGetUserByNick = "SELECT user_nick FROM user WHERE user_nick = ?"
+
+        await connection.query(sqlGetUserByNick, [request.params.user_nick], (err, results, fields) => {
+            if(err) {
+                return response.status(500).send({
+                    success: false,
+                    code: 500,
+                    message: "An unexpected error has occurred!"
+                });
+            }
+
+            if(results == null || results.length == 0) {
+                return response.status(404).send({
+                    success: true,
+                    code: 404,
+                    message: "User was not found!"
+                });
+            }
+
+            return response.status(200).send({
+                success: true,
+                code: 200,
+                nick: results[0].user_nick,
+                message: "User was found!"
             });
         });
     }

@@ -5,8 +5,8 @@ import { BsChatFill } from 'react-icons/bs';
 import { MdErrorOutline } from 'react-icons/md';
 
 import './styles.css';
-import { validatesSignInData } from '../../utils/dataValidation';
-import { sendLoginData, checkAuthentication } from '../../services/auth';
+import { validatesSignInData, validatesSignUpData } from '../../utils/dataValidation';
+import { sendLoginData, sendSignUpData, checkAuthentication } from '../../services/auth';
 import { readCookie } from '../../utils/handlingCookies';
 import { USER_KEY } from '../../utils/constants';
 
@@ -14,6 +14,8 @@ export function Login(props) {
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [invalidSignInDataMessage, setInvalidSignInDataMessage] = useState("");
     const [invalidSignInData, setInvalidSignInData] = useState("");
+    const [invalidSignUpDataMessage, setInvalidSignUpDataMessage] = useState([""]);
+    const [invalidSignUpData, setInvalidSignUpData] = useState("");
     const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
     const [ready, setReady] = useState(false);
 
@@ -42,49 +44,159 @@ export function Login(props) {
             setReady(true);
     }, []);
 
+    const setInvalidInputField = (fields = []) => {
+        let usernameInput = document.getElementById('username');
+        let passwordInput = document.getElementById('password');
+
+        if(props.formType === 'signup') {
+            let realNameInput = document.getElementById('realName');
+            let emailInput = document.getElementById('email');
+
+            if(fields.indexOf('valid') !== -1) {
+                realNameInput.style.border = '1px solid rgb(170, 170, 170)';
+                usernameInput.style.border = '1px solid rgb(170, 170, 170)';
+                emailInput.style.border = '1px solid rgb(170, 170, 170)';
+                passwordInput.style.border = '1px solid rgb(170, 170, 170)';
+            }
+
+            if(fields.indexOf('realName') === -1)
+                realNameInput.style.border = '1px solid rgb(170, 170, 170)';
+            else
+                realNameInput.style.border = '1px solid red';
+
+            if(fields.indexOf('username') === -1)
+                usernameInput.style.border = '1px solid rgb(170, 170, 170)';
+            else
+                usernameInput.style.border = '1px solid red';
+
+            if(fields.indexOf('email') === -1)
+                emailInput.style.border = '1px solid rgb(170, 170, 170)';
+            else
+                emailInput.style.border = '1px solid red';
+
+            if(fields.indexOf('password') === -1)
+                passwordInput.style.border = '1px solid rgb(170, 170, 170)';
+            else
+                passwordInput.style.border = '1px solid red';
+
+        } else {
+            if(fields.indexOf('valid') !== -1) {
+                usernameInput.style.border = '1px solid rgb(170, 170, 170)';
+                passwordInput.style.border = '1px solid rgb(170, 170, 170)';
+            } else if(fields.indexOf('nickname') !== -1 && fields.indexOf('password') !== -1) {
+                usernameInput.style.border = '1px solid red';
+                passwordInput.style.border = '1px solid red';
+            } else if(fields.indexOf('nickname') !== -1) {
+                usernameInput.style.border = '1px solid red';
+                passwordInput.style.border = '1px solid rgb(170, 170, 170)';
+            } else if(fields.indexOf('password') !== -1) {
+                passwordInput.style.border = '1px solid red';
+                usernameInput.style.border = '1px solid rgb(170, 170, 170)';
+            }
+        }
+    }
+
     const handleSignIn = async event => {
         event.preventDefault();
 
         setButtonDisabled(true);
 
-        let usernameInput = document.getElementById('username');
-        let passwordInput = document.getElementById('password');
-        const usernameData = usernameInput.value;
-        const passwordData = passwordInput.value;
+        const usernameData = document.getElementById('username').value;
+        const passwordData = document.getElementById('password').value;
         const { invalidData, message } = validatesSignInData(usernameData, passwordData);
 
         if(invalidData) {
             setInvalidSignInData(invalidData);
             setInvalidSignInDataMessage(message);
 
-            if(invalidData === 'both') {
-                usernameInput.style.border = '1px solid red';
-                passwordInput.style.border = '1px solid red';
-            } else if(invalidData === 'nickname') {
-                usernameInput.style.border = '1px solid red';
-                passwordInput.style.border = '1px solid rgb(170, 170, 170)';
-            } else if(invalidData === 'password') {
-                usernameInput.style.border = '1px solid rgb(170, 170, 170)';
-                passwordInput.style.border = '1px solid red';
-            }
+            if(invalidData === 'both')
+                setInvalidInputField(['nickname', 'password']);
+            else if(invalidData === 'nickname')
+                setInvalidInputField(['nickname']);
+            else if(invalidData === 'password')
+                setInvalidInputField(['password']);
+
+            setButtonDisabled(false);
         } else {
-            usernameInput.style.border = '1px solid rgb(170, 170, 170)';
-            passwordInput.style.border = '1px solid rgb(170, 170, 170)';
+            setInvalidInputField('valid');
 
             if(await sendLoginData(usernameData, passwordData)) {
-                setInvalidSignInData("");
-                setInvalidSignInDataMessage("");
+                setInvalidSignInData('');
+                setInvalidSignInDataMessage('');
 
                 await setTimeout(() => {
                     props.history.push('/');
                 }, 2000);
             } else {
-                setInvalidSignInData("both");
-                setInvalidSignInDataMessage("Username or password is invalid!");
+                setButtonDisabled(false);
+                setInvalidSignInData('both');
+                setInvalidInputField(['nickname', 'password']);
+                setInvalidSignInDataMessage('Username or password is invalid!');
             }
         }
+    };
 
-        setButtonDisabled(false);
+    const handleSignUp = async event => {
+        event.preventDefault();
+
+        setButtonDisabled(true);
+
+        const realNameData = document.getElementById('realName').value;
+        const usernameData = document.getElementById('username').value;
+        const emailData = document.getElementById('email').value;
+        const passwordData = document.getElementById('password').value;
+        const { invalidFields, hasEmptyField, hasNotAllowedChars } = validatesSignUpData(realNameData, usernameData, emailData, passwordData);
+
+        if(invalidFields.length > 0) {
+            const messages = [
+                    (hasEmptyField ? 'You must fill in all the fields!' : ''),
+                    (hasNotAllowedChars ? 'You must use only allowed characters!' : '')
+            ];
+
+            setInvalidSignUpData(invalidFields);
+            setInvalidSignUpDataMessage(messages);
+            setInvalidInputField(invalidFields);
+            setButtonDisabled(false);
+        } else {
+            setInvalidInputField('valid');
+
+            const result = await sendSignUpData(realNameData, usernameData, emailData, passwordData);
+
+            if(result.success) {
+                setInvalidSignUpData('');
+                setInvalidSignUpDataMessage('');
+                await sendLoginData(usernameData, passwordData)
+
+                await setTimeout(() => {
+                    props.history.push('/');
+                }, 2000);
+            } else {
+                setButtonDisabled(false);
+                setInvalidSignUpData([result.invalidField]);
+                setInvalidSignUpDataMessage([result.message]);
+                setInvalidInputField([result.invalidField]);
+            }
+        }
+    }
+
+    const clearErrorMessages = () => {
+        // setInvalidInputField([]);
+        clearFields();
+        setInvalidSignInData('');
+        setInvalidSignInDataMessage('');
+        setInvalidSignUpData('');
+        setInvalidSignUpDataMessage(['']);
+        setInvalidInputField('valid');
+    }
+
+    const clearFields = () => {
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+
+        if(props.formType === 'signup') {
+            document.getElementById('realName').value = '';
+            document.getElementById('email').value = '';
+        }
     }
 
     if(!ready)
@@ -110,7 +222,7 @@ export function Login(props) {
                     { props.formType === 'signin' ? <h2>Welcome back!</h2> : <h2>You're welcome!</h2>}
 
                     {
-                        invalidSignInData ?
+                        invalidSignInData && props.formType === 'signin' ?
                             <div id="sign-in-error-box">
                                 <div id="sign-in-error-message">
                                     <p>
@@ -122,16 +234,38 @@ export function Login(props) {
                             ''
                     }
 
+                    {
+                        invalidSignUpData && props.formType === 'signup' ?
+                            <div id="sign-in-error-box">
+                                <div id="sign-in-error-message">
+                                    {
+                                        invalidSignUpDataMessage.map(message => {
+                                            if(message)
+                                                return(
+                                                    <p key={message}>
+                                                        <MdErrorOutline /> {message}
+                                                    </p>
+                                                );
+                                            return '';
+                                        })
+                                    }
+                                </div>
+                            </div>
+                            :
+                            ''
+                    }
+
                     <form id="login-form">
                         {
                             props.formType === 'signup' ?
                             <div id="real-name-group">
-                                <label htmlFor="real-name">Name</label>
+                                <label htmlFor="realName">Name</label>
                                 <input
                                     type="text"
-                                    id="real-name"
+                                    id="realName"
                                     placeholder="Your real name"
                                     maxLength="40"
+                                    autoFocus
                                 ></input>
                             </div>
                                 :
@@ -144,7 +278,7 @@ export function Login(props) {
                                 id="username"
                                 placeholder={props.formType === 'signup' ? "Choose a username" : "Your username"}
                                 maxLength="20"
-                                autoFocus
+                                autoFocus={props.formType === 'signup' ? false : true}
                             ></input>
                         </div>
 
@@ -177,11 +311,15 @@ export function Login(props) {
                             props.formType === 'signin' ?
                                 <div className="login-link-questions">
                                     <Link to={""} id="forgot-password-link">Forgot your password?</Link>
-                                    <Link to="/signup" id="link-sign-up">Don't have an account?</Link>
+                                    <Link 
+                                        to="/signup"
+                                        id="link-sign-up"
+                                        onClick={clearErrorMessages}>Don't have an account?</Link>
                                 </div>
                                 :
                                 <div className="login-link-questions">
-                                    <Link to="/signin" id="link-sign-up">Already have an account?</Link>
+                                    <Link to="/signin" id="link-sign-up"
+                                        onClick={clearErrorMessages}>Already have an account?</Link>
                                 </div>
                         }
 
@@ -199,6 +337,7 @@ export function Login(props) {
                                 <button
                                     className="sign-button"
                                     title="Sign up to start using the chat!"
+                                    onClick={handleSignUp}
                                     disabled={buttonDisabled}
                                 >
                                     { buttonDisabled ? "Signing up..." : "Sign Up" }

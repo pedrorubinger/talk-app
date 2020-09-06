@@ -3,7 +3,7 @@
 #login-container {
     width: 100%;
     background-image: url("../../assets/dark-background.jpg");
-    min-height: 640px;
+    min-height: 680px;
     height: 100vh;
     display: flex;
     align-content: center;

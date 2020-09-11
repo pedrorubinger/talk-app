@@ -120,7 +120,9 @@ export function Login(props) {
         } else {
             setInvalidInputField('valid');
 
-            if(await sendLoginData(usernameData, passwordData)) {
+            const response = await sendLoginData(usernameData, passwordData);
+
+            if(response.success) {
                 setInvalidSignInData('');
                 setInvalidSignInDataMessage('');
 
@@ -131,7 +133,7 @@ export function Login(props) {
                 setButtonDisabled(false);
                 setInvalidSignInData('both');
                 setInvalidInputField(['nickname', 'password']);
-                setInvalidSignInDataMessage('Username or password is invalid!');
+                setInvalidSignInDataMessage(response.message);
             }
         }
     };

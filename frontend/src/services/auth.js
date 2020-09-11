@@ -18,16 +18,19 @@ export const checkAuthentication = async () => {
 }
 
 export const sendLoginData = async (user_nick, user_password) => {
-    try {
-        const responseLogin = await apiWithoutAuth.post('/api/user/signin', { user_nick, user_password });
-        
-        if(responseLogin.data.success) {
-            createCookie(USER_KEY, responseLogin.data.token, 0);
-            return true;
-        } else return false;
-    } catch (err) {
-        return false;
-    }
+    return await apiWithoutAuth.post('/api/user/signin', { user_nick, user_password })
+        .then(response => {
+            if(response.data.success) {
+                createCookie(USER_KEY, response.data.token, 0);
+                return { success: true, message: 'Success!' };
+            } else {
+                return { success: false, message: 'Unexpected Error!' };
+            }
+        }).catch(error => {
+            if(typeof error.response === 'undefined')
+                return { success: false, message: 'Network or server error!' }
+            else return error.response.data;
+        });
 }
 
 export const sendSignUpData = async (user_name, user_nick, user_email, user_password) => {

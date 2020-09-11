@@ -63,7 +63,7 @@ export function Home() {
                             userIsAuthenticated ?
                                 <li>
                                     <Link
-                                        to="/profile"
+                                        to="/profile/me"
                                         title="Access your profile and manage your information">
                                         <FiUser size="14" style={{ marginRight: '7px'}} />{userNickname}
                                     </Link>

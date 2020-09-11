@@ -34,7 +34,9 @@ export function Chat() {
 
                         <div id="chat-user-info-name">
                             <p>Pedro Rubinger</p>
-                            <span>Settings</span>
+                            <span>
+                                <Link to="/settings">Settings</Link>
+                            </span>
                         </div>
                     </div>
 

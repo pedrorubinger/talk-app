@@ -107,6 +107,23 @@ module.exports = {
             }
 
             /* From here, the user is authenticated */
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = (now.getMonth() < 10 ? "0" + (now.getMonth() + 1) : (now.getMonth() + 1));
+            const day = (now.getDate() < 10 ? "0" + now.getDate() : now.getDate());
+            const user_last_visit = year + "-" + month + "-" + day + " " + now.toLocaleTimeString();
+            const sqlUpdatesLastVisit = "UPDATE user SET user_last_visit = ? WHERE user_id = ?";
+            
+            connection.query(sqlUpdatesLastVisit, [user_last_visit, results[0].user_id], (err, results, fields) => {
+                if(err) {
+                    return response.status(500).send({
+                        success: false,
+                        code: 500,
+                        message: "Error trying to sign in: " + err
+                    });
+                }
+            });
+
             const userId = results[0].user_id;
             const nick = results[0].user_nick;
             const token = await jwt.sign({ user_id: userId }, secKey.secret, { expiresIn: 86400 });

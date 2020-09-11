@@ -9,6 +9,7 @@ import { Help } from './pages/Help';
 import { Login } from './pages/Login';
 import { NotFound } from './pages/NotFound';
 import { Profile } from './pages/Profile';
+import { ChatSettings } from './pages/ChatSettings';
 
 export function Router() {
     return (
@@ -52,8 +53,14 @@ export function Router() {
 
             <PrivateRoute
               exact
-              path="/profile"
+              path="/profile/me"
               component={ Profile }
+            />
+
+            <PrivateRoute
+              exact
+              path="/settings"
+              component={ ChatSettings }
             />
             
             <Route

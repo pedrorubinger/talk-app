@@ -79,3 +79,17 @@ h2.loading-page-message {
   text-align: center;
   margin-top: 20px;
 }
+
+.error-messages-box {
+  background-color: rgb(230, 69, 69);
+  margin: 0 auto 1.8rem auto;
+  padding: 11px 1rem;
+  font-size: .8rem;
+  color: #fff;
+  border-radius: 4px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
+  opacity: .85;
+}

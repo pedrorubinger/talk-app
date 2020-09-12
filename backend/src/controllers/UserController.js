@@ -194,5 +194,87 @@ module.exports = {
                 message: "User was found!"
             });
         });
+    },
+
+    async getById(request, response) {
+        const sqlGetProfileData = `
+            SELECT user_name,
+                   user_nick,
+                   user_email,
+                   user_permissions,
+                   user_last_visit,
+                   user_instagram_account,
+                   user_facebook_account
+            FROM user
+            WHERE user_id = ?
+        `;
+
+        await connection.query(sqlGetProfileData, [request.params.user_id], (err, results, fields) => {
+            if(err) {
+                return response.status(500).send({
+                    success: false,
+                    code: 500,
+                    message: "An unexpected internal error has occurred!"
+                });
+            }
+
+            if(results.length == 0 || results == null) {
+                return response.status(404).send({
+                    success: false,
+                    code: 404,
+                    message: "User was not found!"
+                });
+            }
+
+            return response.status(200).send({
+                success: true,
+                name: results[0].user_name,
+                nick: results[0].user_nick,
+                email: results[0].user_email,
+                permissions: results[0].user_permissions,
+                last_visit: results[0].user_last_visit,
+                instagram: results[0].user_instagram_account,
+                facebook: results[0].user_facebook_account,
+            });
+        });
+    },
+
+    async update(request, response) {
+        const sqlUpdateProfile = `
+            UPDATE user
+            SET user_name = ?,
+                user_email = ?,
+                user_password = ?,
+                user_instagram_account = ?,
+                user_facebook_account = ?
+            WHERE user_id = ?
+        `;
+
+        const hashedPassword = await bcrypt.hash(request.body.user_password, 10);
+
+        const updateProfileArgs = [
+            request.body.user_name,
+            request.body.user_email,
+            hashedPassword,
+            request.body.user_instagram_account,
+            request.body.user_facebook_account,
+            request.body.user_id
+        ]
+
+        await connection.query(sqlUpdateProfile, updateProfileArgs, (err, results, fields) => {
+            if(err) {
+                return response.status(500).send({
+                    success: false,
+                    code: 500,
+                    message: "An unexpected internal error has occurred!"
+                });
+            }
+
+            return response.status(200).send({
+                success: true,
+                code: 200,
+                message: "Your profile was successfully updated!"
+            });
+        })
     }
 }

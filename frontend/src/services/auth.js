@@ -35,15 +35,15 @@ export const sendLoginData = async (user_nick, user_password) => {
 
 export const sendSignUpData = async (user_name, user_nick, user_email, user_password) => {
     return await apiWithoutAuth.get('/api/user/get/email/' + user_email).then(response => {
-        if(response.status == 200)
+        if(response.status === 200)
             return { success: false, invalidField: 'email', message: 'This email is already registered!' };
     }).catch(async error => {
-        if(error.response.status == 404) {
+        if(error.response.status === 404) {
             return await apiWithoutAuth.get('/api/user/get/nick/' + user_nick).then(response => {
-                if(response.status == 200)
+                if(response.status === 200)
                     return { success: false, invalidField: 'username', message: 'This username is already registered!' };
             }).catch(async error => {
-                if(error.response.status == 404) {
+                if(error.response.status === 404) {
                     const data = { user_name, user_nick, user_email, user_password };
 
                     if(await registerNewUser(data))
@@ -58,7 +58,7 @@ export const sendSignUpData = async (user_name, user_nick, user_email, user_pass
 
 const registerNewUser = async data => {
     return await apiWithoutAuth.post('/api/user/signup', data).then(response => {
-        if(response.status == 200)
+        if(response.status === 200)
             return true;
     }).catch(() => {
         return false;

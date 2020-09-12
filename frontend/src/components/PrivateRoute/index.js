@@ -8,6 +8,7 @@ import { readCookie } from '../../utils/handlingCookies';
 export default function PrivateRoute({component: Component, ...rest}) {
     const [authenticated, setAuthenticated] = useState(false);
     const [ready, setReady] = useState(false);
+    const [id, setUserId] = useState(-1);
 
     useEffect(() => {
         const token = readCookie(USER_KEY);
@@ -17,6 +18,7 @@ export default function PrivateRoute({component: Component, ...rest}) {
                 await checkAuthentication().then(response => {
                     if(response.success) {
                         setAuthenticated(true);
+                        setUserId(response.user_id);
                         setReady(true);
                     }
                     else {
@@ -40,7 +42,7 @@ export default function PrivateRoute({component: Component, ...rest}) {
     return(
         <Route {...rest} render={props => (
             authenticated ?
-                <Component {...props} />
+                <Component {...props} userId={id} />
                     :
                 <Redirect to="/signin" />
         )} />

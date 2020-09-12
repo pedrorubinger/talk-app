@@ -4,11 +4,14 @@ import { FiInstagram } from 'react-icons/fi';
 import { MdErrorOutline } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
+import Axios from 'axios';
 
 import './styles.css';
 import defaultAvatarImg from '../../assets/profile-default.jpg';
 import { api } from '../../services/api';
 import { validatesProfileData } from '../../utils/dataValidation';
+import { readCookie } from '../../utils/handlingCookies';
+import { USER_KEY, SERVER_BASE_URL } from '../../utils/constants';
 
 export function Profile(props) {
     // Buttons and form visibility
@@ -36,6 +39,13 @@ export function Profile(props) {
     const [ready, setReady] = useState(false);
 
     useEffect(() => {
+        const api = Axios.create({
+            baseURL: SERVER_BASE_URL,
+            headers: {
+                'x-access-token': readCookie(USER_KEY)
+            }
+        });
+
         const getProfileData = async () => {
             await api.get('/api/user/get/id/' + props.userId)
                 .then(response => {

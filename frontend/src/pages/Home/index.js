@@ -21,6 +21,7 @@ export function Home() {
     const history = useHistory();
     const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
     const [userNickname, setUserNickname] = useState("Failed");
+    const [id, setUserId] = useState(''); 
     const [ready, setReady] = useState(false);
 
     useEffect(() => {
@@ -32,9 +33,9 @@ export function Home() {
                     if(response.success) {
                         setUserIsAuthenticated(true);
                         setUserNickname(response.user_nick);
+                        setUserId(response.user_id);
                         setReady(true);
-                    }
-                    else {
+                    } else {
                         setUserIsAuthenticated(false);
                         setReady(true);
                     }
@@ -43,7 +44,7 @@ export function Home() {
                     setReady(true);
                 });
             }
-    
+
             getAuthentication();
         } else
             setReady(true);
@@ -63,8 +64,12 @@ export function Home() {
                             userIsAuthenticated ?
                                 <li>
                                     <Link
-                                        to="/profile/me"
+                                        to={{
+                                            pathname: "/profile/me",
+                                            userId: id
+                                        }}
                                         title="Access your profile and manage your information">
+                                        
                                         <FiUser size="14" style={{ marginRight: '7px'}} />{userNickname}
                                     </Link>
                                 </li>
@@ -100,7 +105,7 @@ export function Home() {
                                 :
                             <li>
                                 <span
-                                    onClick={evt => logout()}
+                                    onClick={() => logout()}
                                     title="Sign out"
                                 >
                                     Sign Out
@@ -350,7 +355,9 @@ export function Home() {
                         target="_blank"
                         rel="noopener noreferrer"
                         title="Visit author's GitHub page"    
-                    >&nbsp;Pedro H. P. Rubinger</a></p>
+                    >&nbsp;Pedro H. P. Rubinger
+                    </a>
+                </p>
             </footer>
         </div>
     );

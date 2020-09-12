@@ -78,7 +78,6 @@ export function Login(props) {
                 passwordInput.style.border = '1px solid rgb(170, 170, 170)';
             else
                 passwordInput.style.border = '1px solid red';
-
         } else {
             if(fields.indexOf('valid') !== -1) {
                 usernameInput.style.border = '1px solid rgb(170, 170, 170)';
@@ -225,7 +224,7 @@ export function Login(props) {
 
                     {
                         invalidSignInData && props.formType === 'signin' ?
-                            <div id="sign-in-error-box">
+                            <div className="error-messages-box">
                                 <div id="sign-in-error-message">
                                     <p>
                                         <MdErrorOutline /> {invalidSignInDataMessage}
@@ -238,7 +237,7 @@ export function Login(props) {
 
                     {
                         invalidSignUpData && props.formType === 'signup' ?
-                            <div id="sign-in-error-box">
+                            <div className="error-messages-box">
                                 <div id="sign-in-error-message">
                                     {
                                         invalidSignUpDataMessage.map(message => {

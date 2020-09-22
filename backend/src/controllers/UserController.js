@@ -10,7 +10,6 @@ module.exports = {
             request.body.user_email, request.body.user_password)) {
             return response.status(400).send({
                 success: false,
-                code: 400,
                 message: 'Invalid user data!'
             });
         }
@@ -50,14 +49,12 @@ module.exports = {
             if(err) {
                 return response.status(500).send({
                     success: false,
-                    code: 500,
                     message: "Error when registering new user: " + err
                 });
             }
 
             return response.status(200).send({
                 success: true,
-                code: 200,
                 message: "The user has been successfully registered!"
             });
         });
@@ -74,7 +71,6 @@ module.exports = {
         if(!validateData.validatesLoginData(request.body.user_nick, request.body.user_password)) {
             return response.status(400).send({
                 success: false,
-                code: 400,
                 message: 'Invalid user data!'
             });
         }
@@ -85,7 +81,6 @@ module.exports = {
             if(err) {
                 return response.status(500).send({
                     success: false,
-                    code: 500,
                     message: "Error trying to sign in: " + err
                 });
             }
@@ -118,7 +113,6 @@ module.exports = {
                 if(err) {
                     return response.status(500).send({
                         success: false,
-                        code: 500,
                         message: "Error trying to sign in: " + err
                     });
                 }
@@ -137,6 +131,39 @@ module.exports = {
         });
     },
 
+    getByNameOrNick(request, response) {
+        const content = request.params.user_name;
+        const sqlGetUsers = `
+            SELECT user_id, user_name, user_nick, user_location, user_image
+            FROM user
+            WHERE user_name LIKE CONCAT('%', ?, '%')
+                OR user_nick LIKE CONCAT('%', ?, '%');                
+        `;
+
+        connection.query(sqlGetUsers, [content, content], (err, results, fields) => {
+            if(err) {
+                return response.status(500).send({
+                    success: false,
+                    message: "An unexpected error has occurred!"
+                });
+            }
+
+            if(results.length == 0 || results == null) {
+                return response.status(404).send({
+                    success: false,
+                    message: "User not found!",
+                    results
+                });
+            }
+
+            return response.status(200).send({
+                success: true,
+                message: "User was found!",
+                results
+            });
+        });
+    },
+
     async checkEmail(request, response) {
         const sqlGetUserByEmail = "SELECT user_email FROM user WHERE user_email = ?";
 
@@ -144,7 +171,6 @@ module.exports = {
             if(err) {
                 return response.status(500).send({
                     success: false,
-                    code: 500,
                     message: "An unexpected error has occurred!"
                 });
             }
@@ -152,14 +178,12 @@ module.exports = {
             if(results == null || results.length == 0) {
                 return response.status(404).send({
                     success: false,
-                    code: 404,
                     message: "The user was not found!"
                 });
             }
 
             return response.status(200).send({
                 success: true,
-                code: 200,
                 nick: results[0].user_nick,
                 email: results[0].user_email,
                 message: "The user was found!"
@@ -174,7 +198,6 @@ module.exports = {
             if(err) {
                 return response.status(500).send({
                     success: false,
-                    code: 500,
                     message: "An unexpected error has occurred!"
                 });
             }
@@ -182,14 +205,12 @@ module.exports = {
             if(results == null || results.length == 0) {
                 return response.status(404).send({
                     success: true,
-                    code: 404,
                     message: "User was not found!"
                 });
             }
 
             return response.status(200).send({
                 success: true,
-                code: 200,
                 nick: results[0].user_nick,
                 message: "User was found!"
             });
@@ -213,7 +234,6 @@ module.exports = {
             if(err) {
                 return response.status(500).send({
                     success: false,
-                    code: 500,
                     message: "An unexpected internal error has occurred!"
                 });
             }
@@ -221,7 +241,6 @@ module.exports = {
             if(results.length == 0 || results == null) {
                 return response.status(404).send({
                     success: false,
-                    code: 404,
                     message: "User was not found!"
                 });
             }
@@ -265,14 +284,12 @@ module.exports = {
             if(err) {
                 return response.status(500).send({
                     success: false,
-                    code: 500,
                     message: "An unexpected internal error has occurred!"
                 });
             }
 
             return response.status(200).send({
-                success: true,
-                code: 200,
+                success: true,   
                 message: "Your profile was successfully updated!"
             });
         })

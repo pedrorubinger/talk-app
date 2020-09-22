@@ -1,0 +1,94 @@
+/* SEARCH RESULTS PAGE CSS */
+
+#search-result-container {
+    background-color: rgb(250, 250, 250);
+    width: 100%;
+    height: 100vh;
+}
+
+#search-result-container h2 {
+    padding-top: 70px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 20px;
+    color: rgb(80, 80, 80);
+}
+
+#search-result-container #search-result-content {
+    background-color: #fff;
+    margin: auto;
+    max-width: 700px;
+    width: 100%;
+    border: 1px solid rgb(175, 175, 175);
+    box-shadow: 0px 1px 4px rgb(153, 153, 153);
+    padding: 20px 25px;
+    margin-bottom: 50px;
+}
+
+#search-result-container #search-result-content .search-user-not-found {
+    padding: 10px;
+    text-align: center;
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+#search-result-container #search-result-content .search-result-card-item {
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgb(155, 155, 155);
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+#search-result-container #search-result-content .search-result-card-item:last-child {
+    border: none;
+    padding-bottom: 3px;
+    margin: 0;
+}
+
+#search-result-container #search-result-content .search-result-card-item img {
+    border: 1px solid rgb(170, 170, 170);
+    border-radius: 3px;
+    margin-right: 20px;
+}
+
+#search-result-container #search-result-content .search-result-card-item
+.search-result-card-item-info {
+    width: 100%;
+    font-weight: 300;
+}
+
+#search-result-container #search-result-content .search-result-card-item
+.search-result-card-item-info .search-result-card-item-title {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#search-result-container #search-result-content .search-result-card-item
+.search-result-card-item-info .search-result-card-item-title p:first-child {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#search-result-container #search-result-content
+.search-result-card-item button.btn-search-result-add {
+    font-size: .7rem;
+    display: flex;
+    line-height: 1;
+    justify-content: space-between;
+    width: 60px;
+    align-items: center;
+    padding: 6px 8px;
+}
+
+#search-result-container #search-result-content
+.search-result-card-item .search-result-card-item-info p:last-child {
+    padding-top: 5px;
+}
+
+/* MEDIA QUERIES */

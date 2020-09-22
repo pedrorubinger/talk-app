@@ -28,8 +28,7 @@ export function Login(props) {
                     if(response.success) {
                         setUserIsAuthenticated(true);
                         setReady(true);
-                    }
-                    else {
+                    } else {
                         setUserIsAuthenticated(false);
                         setReady(true);
                     }

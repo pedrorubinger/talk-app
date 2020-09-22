@@ -1,0 +1,65 @@
+/* SEARCH PEOPLE BAR COMPONENT */
+
+#search-people-bar-container {
+    background-color: rgb(32, 32, 32);
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px 20px 20px;
+}
+
+#search-people-bar-container #search-people-bar-home-links {
+    margin-top: 7px;
+    margin-right: 25px;
+    display: flex;
+    justify-content: space-around;
+}
+
+#search-people-bar-container #search-people-bar-home-links a {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 1rem;
+    transition: .4s;
+}
+
+#search-people-bar-container #search-people-bar-home-links a:hover {
+    cursor: pointer;
+    text-shadow: 1px 0px 1px rgb(199, 199, 199);
+}
+
+#search-people-bar-container #search-people-bar-home-links a {
+    border-right: 1px solid #fff;
+    padding: 0 20px;
+}
+
+#search-people-bar-container #search-people-bar-home-links a:last-child {
+    padding-left: 20px;
+    padding-right: 0;
+    border: none;
+}
+
+#search-people-bar-container #search-people-input-button-box {
+    width: 80%;
+    max-width: 400px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#search-people-bar-container #search-people-input-button-box button {
+    margin-left: 8px;
+    margin-top: 5px;
+    font-size: .8rem;
+    height: 40px;
+    box-shadow: none;
+    background-color: rgb(56, 102, 161);
+    transition: .4s;
+    border: 1px solid rgb(21, 63, 180);
+}
+
+#search-people-bar-container #search-people-input-button-box button:hover {
+    background-color: rgb(31, 75, 133);
+}
+
+/* MEDIA QUERIES */

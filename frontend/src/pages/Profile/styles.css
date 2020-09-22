@@ -3,19 +3,9 @@
 #profile-container {
     position: absolute;
     width: 100%;
-    height: 100vh;
+    height: 700px;
     background-color: rgb(250, 250, 250);
     /* background-image: url('../../assets/dark-background.jpg'); */
-}
-
-#profile-container a.link-back-to-home {
-    color: rgb(24, 24, 24);
-    transition: .4s;
-}
-
-#profile-container a.link-back-to-home:hover {
-    color: black;
-    text-shadow: 0px 0px 1px rgb(107, 107, 107);
 }
 
 #profile-container h1 {
@@ -28,23 +18,71 @@
     text-transform: uppercase;
 }
 
-#profile-container #profile-content {
-    margin: 90px auto 50px auto;
+#profile-container #profile-main-content {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-top: 110px;
+}
+
+#profile-container #contacts-content {
+    width: 350px;
+    height: 358px;
     background-color: #fff;
     border: 1px solid rgb(204, 200, 200);
     border-radius: 4px;
     box-shadow: 2px 2px 2px rgb(192, 190, 190);
-    /* width: 60%; */
+    margin-bottom: auto;
+    margin-right: 50px;
+}
+
+#profile-container #contacts-content #profile-contacts-list {
+    overflow: auto;
+    height: 290px;
+}
+
+#profile-container #contacts-content #profile-contacts-list ul li {
+    border-bottom: 1px solid rgb(189, 189, 189);
+    padding: 10px;
+    display: flex;
+}
+
+#profile-container #contacts-content #profile-contacts-list ul li img {
+    border-radius: 50%;
+    border: 1px solid rgb(199, 199, 199);
+}
+
+#profile-container #contacts-content #profile-contacts-list ul li .profile-contacts-info-group {
+    margin: auto 10px;
+    font-size: .75rem;
+    color: rgb(59, 59, 59);
+}
+
+#profile-container #contacts-content #profile-contacts-list ul li .profile-contacts-info-group a {
+    font-size: 1rem;
+    transition: .4s;
+    color: rgb(59, 59, 59);
+}
+
+#profile-container #contacts-content #profile-contacts-list ul li .profile-contacts-info-group a:hover {
+    font-size: 1rem;
+    color: black;
+}
+
+#profile-container #profile-info-content {
+    background-color: #fff;
+    border: 1px solid rgb(204, 200, 200);
+    border-radius: 4px;
+    box-shadow: 2px 2px 2px rgb(192, 190, 190);
     max-width: 570px;
-    /* padding: 0px 35px 30px 35px; */
     padding: 0px;
-    /* min-width: 800px; */
+    min-width: 550px;
     display: flex;
     flex-direction: column;
 }
 
-#profile-container #profile-content h2 {
-    /* color: rgb(95, 95, 95); */
+#profile-container h2 {
     color: #fff;
     display: block;
     text-shadow: 0px 1px 1px rgb(167, 167, 167);
@@ -67,7 +105,7 @@
     margin: .8rem auto;
 }
 
-#profile-container #profile-content #profile-personal-info-box {
+#profile-container #profile-info-content #profile-personal-info-box {
     margin: 1.8rem auto 2.2rem auto;
     display: flex;
 }
@@ -77,27 +115,27 @@
     /* margin-bottom: 1.5rem; */
 }
 
-#profile-container #profile-content #profile-personal-info-box img#profile-personal-info-img {
+#profile-container #profile-info-content #profile-personal-info-box img#profile-personal-info-img {
     border-radius: 50%;
     border: 2px solid rgb(167, 167, 167);
 }
 
-#profile-container #profile-content #profile-personal-info-box #profile-personal-info-data {
+#profile-container #profile-info-content #profile-personal-info-box #profile-personal-info-data {
     margin-left: 2.5rem;
     font-weight: 300;
 }
 
-#profile-container #profile-content #profile-personal-info-box #profile-personal-info-data h3,
-#profile-container #profile-content #profile-personal-info-box #profile-personal-info-data p {
+#profile-container #profile-info-content #profile-personal-info-box #profile-personal-info-data h3,
+#profile-container #profile-info-content #profile-personal-info-box #profile-personal-info-data p {
     padding: 5px;
     font-size: .95rem;
 }
 
-#profile-container #profile-content #profile-personal-info-box #profile-personal-info-data h3 {
+#profile-container #profile-info-content #profile-personal-info-box #profile-personal-info-data h3 {
     font-size: 1.35rem;
 }
 
-#profile-container #profile-content button#edit-profile-button {
+#profile-container #profile-info-content button#edit-profile-button {
     /* background-color: orange; */
     /* width: 100%; */
     margin: auto;
@@ -106,40 +144,40 @@
     width: 240px;
 }
 
-#profile-container #profile-content #profile-personal-edit-box {
+#profile-container #profile-info-content #profile-personal-edit-box {
     /* background-color: red; */
     margin: 20px auto 5px auto;
     width: 85%;
     padding: 0 15px 30px 15px;
 }
 
-#profile-container #profile-content #profile-personal-edit-box .edit-profile-input-group:not(:first-child) {
+#profile-container #profile-info-content #profile-personal-edit-box .edit-profile-input-group:not(:first-child) {
     /* background-color: orange; */
     margin-top: 1.5rem;
 }
 
-#profile-container #profile-content #profile-personal-edit-box #edit-profile-buttons-group {
+#profile-container #profile-info-content #profile-personal-edit-box #edit-profile-buttons-group {
     margin-top: 2rem;
 }
 
-#profile-container #profile-content #profile-personal-edit-box #edit-profile-buttons-group #edit-profile-discard-button {
+#profile-container #profile-info-content #profile-personal-edit-box #edit-profile-buttons-group #edit-profile-discard-button {
     margin-left: 14px;
     background-color: rgb(231, 67, 67);
     border: 1px solid rgb(212, 32, 32);
     transition: .5s;
 }
 
-#profile-container #profile-content #profile-personal-edit-box #edit-profile-buttons-group #edit-profile-discard-button:hover {
+#profile-container #profile-info-content #profile-personal-edit-box #edit-profile-buttons-group #edit-profile-discard-button:hover {
     background-color: rgb(206, 19, 19);
 }
 
-#profile-container #profile-content #profile-personal-edit-box #edit-profile-buttons-group #edit-profile-save-button {
+#profile-container #profile-info-content #profile-personal-edit-box #edit-profile-buttons-group #edit-profile-save-button {
     background-color: rgb(17, 197, 71);
     border: 1px solid rgb(8, 163, 54);
     transition: .5s;
 }
 
-#profile-container #profile-content #profile-personal-edit-box #edit-profile-buttons-group #edit-profile-save-button:hover {
+#profile-container #profile-info-content #profile-personal-edit-box #edit-profile-buttons-group #edit-profile-save-button:hover {
     background-color: rgb(10, 155, 53);
 }
 

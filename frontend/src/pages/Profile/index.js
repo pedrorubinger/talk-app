@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { AiFillHome, AiFillFacebook } from 'react-icons/ai';
+import { AiFillFacebook } from 'react-icons/ai';
 import { FiInstagram } from 'react-icons/fi';
 import { MdErrorOutline } from 'react-icons/md';
-import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 import Axios from 'axios';
 
@@ -12,6 +11,8 @@ import { api } from '../../services/api';
 import { validatesProfileData } from '../../utils/dataValidation';
 import { readCookie } from '../../utils/handlingCookies';
 import { USER_KEY, SERVER_BASE_URL } from '../../utils/constants';
+import { SearchPepopleBar } from '../../components/SearchPeopleBar';
+import { Link } from 'react-router-dom';
 
 export function Profile(props) {
     // Buttons and form visibility
@@ -78,7 +79,7 @@ export function Profile(props) {
         event.preventDefault();
 
         document.getElementById('edit-profile-button').style.display = 'none';
-        document.getElementById('profile-container').style.height = '1200px';
+        document.getElementById('profile-container').style.height = '1250px';
 
         setEditForm(true);
     }
@@ -89,7 +90,7 @@ export function Profile(props) {
         setDisableButtons(true);
 
         document.getElementById('edit-profile-button').style.display = 'block';
-        document.getElementById('profile-container').style.height = 'auto';
+        document.getElementById('profile-container').style.height = '700px';
 
         setUsernameField(userName);
         setUserNick(userNick);
@@ -274,237 +275,332 @@ export function Profile(props) {
 
     return(
         <div id="profile-container">
-            <Link className="link-back-to-home" to="/" >
-                <AiFillHome size="18" color="black" style={{ marginRight: '8px' }} />
-                <span>Back to home</span>
-            </Link>
+            <SearchPepopleBar />
 
-            {/* <h1>Profile</h1> */}
+            <div id="profile-main-content">
+                <div id="contacts-content">
+                    <h2>Contacts</h2>
+                    
+                    <div id="profile-contacts-list">
+                        <ul>
+                            <li>
+                                <img src={defaultAvatarImg} height="40" width="40" alt="avatar"/>
+                                
+                                <div className="profile-contacts-info-group">
+                                    <Link to="/">Vitinho</Link>
+                                    <p>online</p>
+                                </div>
+                            </li>
 
-            <div id="profile-content">
-                <h2>Personal Information</h2>
+                            {/* <li>
+                                <img src={defaultAvatarImg} height="40" width="40"/>
+                                
+                                <div className="profile-contacts-info-group">
+                                    <Link to="/">Vitinho</Link>
+                                    <p>online</p>
+                                </div>
+                            </li>
 
-                <div id="profile-personal-info-box">
-                    <img
-                        src={defaultAvatarImg}
-                        id="profile-personal-info-img"
-                        width="155"
-                        height="155"
-                        alt="Avatar"
-                    />
+                            <li>
+                                <img src={defaultAvatarImg} height="40" width="40"/>
+                                
+                                <div className="profile-contacts-info-group">
+                                    <Link to="/">Vitinho</Link>
+                                    <p>online</p>
+                                </div>
+                            </li>
 
-                    <div id="profile-personal-info-data">
-                        <h3>{userName}</h3>
+                            <li>
+                                <img src={defaultAvatarImg} height="40" width="40"/>
+                                
+                                <div className="profile-contacts-info-group">
+                                    <Link>Vitinho</Link>
+                                    <p>online</p>
+                                </div>
+                            </li>
 
-                        <p>
-                            <b>Nick:</b>
-                            &nbsp;&nbsp;{userNick}
-                        </p>
-                        
-                        <p>
-                            <b>Email:</b>
-                            &nbsp;&nbsp;{userEmail}
-                        </p>
+                            <li>
+                                <img src={defaultAvatarImg} height="40" width="40"/>
+                                
+                                <div className="profile-contacts-info-group">
+                                    <Link>Vitinho</Link>
+                                    <p>online</p>
+                                </div>
+                            </li>
 
-                        <p>
-                            <b>Last visit:</b>
-                            &nbsp;&nbsp;
-                            {
-                                userLastVisit
-                                    .substring(0, 10)
-                                    .split('-')
-                                    .reverse()
-                                    .join('/') + ' ' + 
-                                    new Date(userLastVisit)
-                                    .toTimeString()
-                                    .substring(0, 5)
-                            }
-                        </p>
+                            <li>
+                                <img src={defaultAvatarImg} height="40" width="40"/>
+                                
+                                <div className="profile-contacts-info-group">
+                                    <Link>Vitinho</Link>
+                                    <p>online</p>
+                                </div>
+                            </li>
 
-                        <p>
-                            <b>Social:</b>&nbsp;&nbsp;
-                            {
-                                ((userInstagram === '' || userInstagram === null) &&
-                                 (userFacebook === '' || userFacebook === null)) ?
-                                'Not included' : ''
-                            }
+                            <li>
+                                <img src={defaultAvatarImg} height="40" width="40"/>
+                                
+                                <div className="profile-contacts-info-group">
+                                    <Link>Vitinho</Link>
+                                    <p>online</p>
+                                </div>
+                            </li>
 
-                            {
-                                ((userInstagram !== '' && userInstagram !== null)
-                                    && (userFacebook !== '' && userFacebook !== null)) ?
-                                <span>
-                                    <a
-                                        href={"https://www.instagram.com/" + (userInstagram || '')}
-                                        target="_blank" rel="noopener noreferrer"
-                                    >
-                                        <FiInstagram color="black" size="18" />
-                                    </a>
+                            <li>
+                                <img src={defaultAvatarImg} height="40" width="40"/>
+                                
+                                <div className="profile-contacts-info-group">
+                                    <Link>Vitinho</Link>
+                                    <p>online</p>
+                                </div>
+                            </li>
 
-                                    &nbsp;
-                                    <a
-                                        href={"https://www.facebook.com/" + (userFacebook || '')}
-                                        target="_blank" rel="noopener noreferrer"
-                                    >
-                                        <AiFillFacebook color="black" size="18" />
-                                    </a>
-                                </span>
-                                :
-                                userInstagram !== null && userInstagram !== '' ?
-                                    <a
-                                        href={"https://www.instagram.com/" + (userInstagram || '')}
-                                        target="_blank" rel="noopener noreferrer"    
-                                    >
-                                        <FiInstagram color="black" size="18" />
-                                    </a>
-                                    :
-                                    userFacebook !== null && userFacebook !== '' ?
+                            <li>
+                                <img src={defaultAvatarImg} height="40" width="40"/>
+                                
+                                <div className="profile-contacts-info-group">
+                                    <Link>Vitinho</Link>
+                                    <p>online</p>
+                                </div>
+                            </li>
+
+                            <li>
+                                <img src={defaultAvatarImg} height="40" width="40"/>
+                                
+                                <div className="profile-contacts-info-group">
+                                    <Link>Vitinho</Link>
+                                    <p>online</p>
+                                </div>
+                            </li> */}
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="profile-info-content">
+                    <h2>Personal Information</h2>
+
+                    <div id="profile-personal-info-box">
+                        <img
+                            src={defaultAvatarImg}
+                            id="profile-personal-info-img"
+                            width="155"
+                            height="155"
+                            alt="Avatar"
+                        />
+
+                        <div id="profile-personal-info-data">
+                            <h3>{userName}</h3>
+
+                            <p>
+                                <b>Nick:</b>
+                                &nbsp;&nbsp;{userNick}
+                            </p>
+                            
+                            <p>
+                                <b>Email:</b>
+                                &nbsp;&nbsp;{userEmail}
+                            </p>
+
+                            <p>
+                                <b>Last visit:</b>
+                                &nbsp;&nbsp;
+                                {
+                                    userLastVisit
+                                        .substring(0, 10)
+                                        .split('-')
+                                        .reverse()
+                                        .join('/') + ' ' + 
+                                        new Date(userLastVisit)
+                                        .toTimeString()
+                                        .substring(0, 5)
+                                }
+                            </p>
+
+                            <p>
+                                <b>Social:</b>&nbsp;&nbsp;
+                                {
+                                    ((userInstagram === '' || userInstagram === null) &&
+                                    (userFacebook === '' || userFacebook === null)) ?
+                                    'Not included' : ''
+                                }
+
+                                {
+                                    ((userInstagram !== '' && userInstagram !== null)
+                                        && (userFacebook !== '' && userFacebook !== null)) ?
+                                    <span>
+                                        <a
+                                            href={"https://www.instagram.com/" + (userInstagram || '')}
+                                            target="_blank" rel="noopener noreferrer"
+                                        >
+                                            <FiInstagram color="black" size="18" />
+                                        </a>
+
+                                        &nbsp;
                                         <a
                                             href={"https://www.facebook.com/" + (userFacebook || '')}
                                             target="_blank" rel="noopener noreferrer"
                                         >
                                             <AiFillFacebook color="black" size="18" />
                                         </a>
-                                        : ''
-                            }
-                        </p>
+                                    </span>
+                                    :
+                                    userInstagram !== null && userInstagram !== '' ?
+                                        <a
+                                            href={"https://www.instagram.com/" + (userInstagram || '')}
+                                            target="_blank" rel="noopener noreferrer"    
+                                        >
+                                            <FiInstagram color="black" size="18" />
+                                        </a>
+                                        :
+                                        userFacebook !== null && userFacebook !== '' ?
+                                            <a
+                                                href={"https://www.facebook.com/" + (userFacebook || '')}
+                                                target="_blank" rel="noopener noreferrer"
+                                            >
+                                                <AiFillFacebook color="black" size="18" />
+                                            </a>
+                                            : ''
+                                }
+                            </p>
+                        </div>
                     </div>
+
+                    <button id="edit-profile-button" onClick={showEditForm}>
+                        Edit Profile
+                    </button>
+
+                    { editForm ? <h2>Account Editing</h2> : '' }
+                    
+                    {
+                        invalidAccountEditingDataMessage ?
+                        <div className="error-messages-box">
+                            <div id="account-editing-error-message">
+                                {
+                                    invalidAccountEditingDataMessage.map(message => {
+                                        if(message)
+                                            return(
+                                                <p key={message}>
+                                                    <MdErrorOutline /> {message}
+                                                </p>
+                                            );
+                                        return '';
+                                    })
+                                }
+                            </div>
+                        </div>
+                        : ''
+                    }
+
+                    {
+                        editForm ?
+                            <div id="profile-personal-edit-box">
+                                <div className="edit-profile-input-group">
+                                    <label htmlFor="profile-name">
+                                        Name <span style={{ color: 'red' }}>*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="profile-name"
+                                        placeholder="Enter your name"
+                                        value={userNameField}
+                                        onChange={e => setUsernameField(e.target.value)}
+                                    >
+                                    </input>
+                                </div>
+
+                                <div className="edit-profile-input-group">
+                                    <label htmlFor="profile-email">
+                                        Email <span style={{ color: 'red' }}>*</span>
+                                    </label>
+            
+                                    <input
+                                        type="email"
+                                        id="profile-email"
+                                        placeholder="Enter your new email address"
+                                        value={userEmailField}
+                                        onChange={e => setUserEmailField(e.target.value)}
+                                    >
+                                    </input>
+                                </div>
+
+                                <div className="edit-profile-input-group">
+                                    <label htmlFor="profile-current-password">
+                                        Current Password <span style={{ color: 'red' }}>*</span>
+                                    </label>
+            
+                                    <input
+                                        type="password"
+                                        id="profile-current-password"
+                                        autoFocus
+                                        placeholder="Enter your current password"
+                                        onChange={e => setCurrentUserPasswordField(e.target.value)}
+                                    >
+                                    </input>
+                                </div>
+
+                                <div className="edit-profile-input-group">
+                                    <label htmlFor="profile-new-password">
+                                        New password
+                                    </label>
+                                    
+                                    <input
+                                        type="password"
+                                        id="profile-new-password"
+                                        placeholder="Enter your new password"
+                                        onChange={e => setNewUserPasswordField(e.target.value)}
+                                    >
+                                    </input>
+                                </div>
+
+                                <div className="edit-profile-input-group">
+                                    <label htmlFor="profile-instagram">Instagram:</label>
+                                    
+                                    <input
+                                        type="text"
+                                        id="profile-instagram"
+                                        placeholder="Enter your Instagram username"
+                                        value={userInstagramField === null ? '' : userInstagramField}
+                                        onChange={e => setUserInstagramField(e.target.value)}  
+                                    >
+                                    </input>
+                                </div>
+
+                                <div className="edit-profile-input-group">
+                                    <label htmlFor="profile-facebook">Facebook:</label>
+                                    <input
+                                        type="text"
+                                        id="profile-facebook"
+                                        placeholder="Enter your Facebook username"
+                                        value={userFacebookField === null ? '' : userFacebookField}
+                                        onChange={e => setUserFacebookField(e.target.value)}
+                                    >
+                                    </input>
+                                </div>
+
+                                <div id="edit-profile-buttons-group">
+                                    <button
+                                        id="edit-profile-save-button"
+                                        title="Save changes and update your profile"
+                                        onClick={submitAccountEditing}
+                                        disabled={buttonsAreDisabled}
+                                    >
+                                        { saveChangesProccess ? "Saving..." : "Save Changes" }
+                                    </button>
+
+                                    <button
+                                        id="edit-profile-discard-button"
+                                        title="Discard changes and keep everything as it was" 
+                                        onClick={hideEditForm}
+                                        disabled={buttonsAreDisabled}
+                                    >
+                                        { discardChangesProccess ? "Discarding..." : "Discard Changes" }
+                                    </button>
+                                </div>
+                            </div>
+                        : ''
+                    }
                 </div>
-
-                <button id="edit-profile-button" onClick={showEditForm}>
-                    Edit Profile
-                </button>
-
-                { editForm ? <h2>Account Editing</h2> : '' }
-                
-                {
-                    invalidAccountEditingDataMessage ?
-                    <div className="error-messages-box">
-                        <div id="account-editing-error-message">
-                            {
-                                invalidAccountEditingDataMessage.map(message => {
-                                    if(message)
-                                        return(
-                                            <p key={message}>
-                                                <MdErrorOutline /> {message}
-                                            </p>
-                                        );
-                                    return '';
-                                })
-                            }
-                        </div>
-                    </div>
-                    : ''
-                }
-
-                {
-                    editForm ?
-                        <div id="profile-personal-edit-box">
-                            <div className="edit-profile-input-group">
-                                <label htmlFor="profile-name">
-                                    Name <span style={{ color: 'red' }}>*</span>
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="profile-name"
-                                    placeholder="Enter your name"
-                                    value={userNameField}
-                                    onChange={e => setUsernameField(e.target.value)}
-                                >
-                                </input>
-                            </div>
-
-                            <div className="edit-profile-input-group">
-                                <label htmlFor="profile-email">
-                                    Email <span style={{ color: 'red' }}>*</span>
-                                </label>
-        
-                                <input
-                                    type="email"
-                                    id="profile-email"
-                                    placeholder="Enter your new email address"
-                                    value={userEmailField}
-                                    onChange={e => setUserEmailField(e.target.value)}
-                                >
-                                </input>
-                            </div>
-
-                            <div className="edit-profile-input-group">
-                                <label htmlFor="profile-current-password">
-                                    Current Password <span style={{ color: 'red' }}>*</span>
-                                </label>
-        
-                                <input
-                                    type="password"
-                                    id="profile-current-password"
-                                    autoFocus
-                                    placeholder="Enter your current password"
-                                    onChange={e => setCurrentUserPasswordField(e.target.value)}
-                                >
-                                </input>
-                            </div>
-
-                            <div className="edit-profile-input-group">
-                                <label htmlFor="profile-new-password">
-                                    New password
-                                </label>
-                                
-                                <input
-                                    type="password"
-                                    id="profile-new-password"
-                                    placeholder="Enter your new password"
-                                    onChange={e => setNewUserPasswordField(e.target.value)}
-                                >
-                                </input>
-                            </div>
-
-                            <div className="edit-profile-input-group">
-                                <label htmlFor="profile-instagram">Instagram:</label>
-                                
-                                <input
-                                    type="text"
-                                    id="profile-instagram"
-                                    placeholder="Enter your Instagram username"
-                                    value={userInstagramField === null ? '' : userInstagramField}
-                                    onChange={e => setUserInstagramField(e.target.value)}  
-                                >
-                                </input>
-                            </div>
-
-                            <div className="edit-profile-input-group">
-                                <label htmlFor="profile-facebook">Facebook:</label>
-                                <input
-                                    type="text"
-                                    id="profile-facebook"
-                                    placeholder="Enter your Facebook username"
-                                    value={userFacebookField === null ? '' : userFacebookField}
-                                    onChange={e => setUserFacebookField(e.target.value)}
-                                >
-                                </input>
-                            </div>
-
-                            <div id="edit-profile-buttons-group">
-                                <button
-                                    id="edit-profile-save-button"
-                                    title="Save changes and update your profile"
-                                    onClick={submitAccountEditing}
-                                    disabled={buttonsAreDisabled}
-                                >
-                                    { saveChangesProccess ? "Saving..." : "Save Changes" }
-                                </button>
-
-                                <button
-                                    id="edit-profile-discard-button"
-                                    title="Discard changes and keep everything as it was" 
-                                    onClick={hideEditForm}
-                                    disabled={buttonsAreDisabled}
-                                >
-                                    { discardChangesProccess ? "Discarding..." : "Discard Changes" }
-                                </button>
-                            </div>
-                        </div>
-                    : ''
-                }
             </div>
         </div>
     );

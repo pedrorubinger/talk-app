@@ -213,6 +213,7 @@ export function Profile(props) {
             if(passwordIsValid) {
                 const data = {
                     user_name: userNameField,
+                    user_nick: userNick,
                     user_password: password,
                     user_email: userEmailField,
                     user_instagram_account: (userInstagramField === '' ? null : userInstagramField),

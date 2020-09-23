@@ -61,7 +61,7 @@ export function SearchPepopleBar(props) {
                 </Link>
             </div>
 
-            <div id="search-people-input-button-box">
+            <form id="search-people-input-button-box" onSubmit={findPeople}>
                 <input
                     type="text"
                     id="search-people-input"
@@ -74,11 +74,11 @@ export function SearchPepopleBar(props) {
                 <button
                     id="search-people-button"
                     title="Find your friends"
-                    onClick={findPeople}
+                    type="submit"
                 >
                     Find
                 </button>
-            </div>
+            </form>
         </div>
     );
 }

@@ -4,6 +4,42 @@ const jwt = require('jsonwebtoken');
 const secKey = require('../config/secret.json');
 const validateData = require('../utils/validatesData');
 
+const checkCredentials = async (user_nick, user_password) => {
+    return new Promise((resolve, reject) => {
+        const sqlSelectData = "SELECT * FROM user WHERE BINARY user_nick = ?";
+
+        connection.query(sqlSelectData, [user_nick], async (err, results, fields) => {
+            if(err) {
+                reject({
+                    success: false,
+                    message: "Error trying to sign in: " + err
+                });
+            }
+
+            if(results == null || results.length == 0) {
+                reject({
+                    success: false,
+                    message: "Authentication failure!" // User not found
+                });
+            }
+    
+            const match = await bcrypt.compare(user_password, results[0].user_password);
+
+            if(!match) {
+                reject({
+                    success: false,
+                    message: "Unauthorized: Invalid username or password!"
+                });
+            } else {
+                resolve({
+                    success: true,
+                    message: "Authorized: Valid username or password!"
+                })
+            }
+        });
+    });
+}
+
 module.exports = {
     async signUp(request, response) {
         if(!validateData.validatesUserData(request.body.user_name, request.body.user_nick,
@@ -259,6 +295,12 @@ module.exports = {
     },
 
     async update(request, response) {
+        try {
+            await checkCredentials(request.body.user_nick, request.body.user_password);
+        } catch (error) {
+            return response.status(401).send(error);
+        }
+
         const sqlUpdateProfile = `
             UPDATE user
             SET user_name = ?,

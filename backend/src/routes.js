@@ -13,10 +13,10 @@ routes.post('/api/auth/validate', Authentication.checkUserAuthentication);
 // USER CONTROLLER
 routes.post('/api/user/signup', UserController.signUp);
 routes.post('/api/user/signin', UserController.signIn);
-routes.get('/api/user/search/:user_name', UserController.getByNameOrNick);
+routes.get('/api/user/search/:user_name', checkRequestAuthentication, UserController.getByNameOrNick);
 routes.get('/api/user/get/email/:user_email', UserController.checkEmail);
 routes.get('/api/user/get/nick/:user_nick', UserController.checkNick);
 routes.get('/api/user/get/id/:user_id', checkRequestAuthentication, UserController.getById);
-routes.put('/api/user/profile/update/', UserController.update);
+routes.put('/api/user/profile/update/', checkRequestAuthentication, UserController.update);
 
 module.exports = routes;

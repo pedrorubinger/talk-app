@@ -1,0 +1,49 @@
+/* CONTACTS COMPONENT CSS */
+
+#profile-container #contacts-content {
+    width: 350px;
+    height: 358px;
+    background-color: #fff;
+    border: 1px solid rgb(204, 200, 200);
+    border-radius: 4px;
+    box-shadow: 2px 2px 2px rgb(192, 190, 190);
+    margin-bottom: auto;
+    margin-right: 50px;
+}
+
+#profile-container #contacts-content #profile-contacts-list {
+    overflow: auto;
+    height: 290px;
+}
+
+#profile-container #contacts-content #profile-contacts-list .no-contacts-message {
+    text-align: center;
+}
+
+#profile-container #contacts-content #profile-contacts-list ul li {
+    border-bottom: 1px solid rgb(189, 189, 189);
+    padding: 10px;
+    display: flex;
+}
+
+#profile-container #contacts-content #profile-contacts-list ul li img {
+    border-radius: 50%;
+    border: 1px solid rgb(199, 199, 199);
+}
+
+#profile-container #contacts-content #profile-contacts-list ul li .profile-contacts-info-group {
+    margin: auto 10px;
+    font-size: .75rem;
+    color: rgb(59, 59, 59);
+}
+
+#profile-container #contacts-content #profile-contacts-list ul li .profile-contacts-info-group a {
+    font-size: 1rem;
+    transition: .4s;
+    color: rgb(59, 59, 59);
+}
+
+#profile-container #contacts-content #profile-contacts-list ul li .profile-contacts-info-group a:hover {
+    font-size: 1rem;
+    color: black;
+}

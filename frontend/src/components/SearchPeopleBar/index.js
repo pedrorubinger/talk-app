@@ -31,11 +31,9 @@ export function SearchPepopleBar(props) {
                 // else implements some error message to be displayed...
             });
 
-        res.searchFilter = content;
-
         history.push({
             pathname: '/search/',
-            state: { searchData: res }
+            state: { searchData: res, searchFilter: content }
         });
     }
 

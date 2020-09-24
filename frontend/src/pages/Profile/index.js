@@ -12,7 +12,7 @@ import { validatesProfileData } from '../../utils/dataValidation';
 import { readCookie } from '../../utils/handlingCookies';
 import { USER_KEY, SERVER_BASE_URL } from '../../utils/constants';
 import { SearchPepopleBar } from '../../components/SearchPeopleBar';
-import { Link } from 'react-router-dom';
+import Contacts from '../../components/Contacts';
 
 export function Profile(props) {
     // Buttons and form visibility
@@ -268,7 +268,6 @@ export function Profile(props) {
 
         setSaveLoading(false);
         setDisableButtons(false);
-        // setEditForm(false);
     }
 
     if(!ready)
@@ -279,103 +278,7 @@ export function Profile(props) {
             <SearchPepopleBar />
 
             <div id="profile-main-content">
-                <div id="contacts-content">
-                    <h2>Contacts</h2>
-                    
-                    <div id="profile-contacts-list">
-                        <ul>
-                            <li>
-                                <img src={defaultAvatarImg} height="40" width="40" alt="avatar"/>
-                                
-                                <div className="profile-contacts-info-group">
-                                    <Link to="/">Vitinho</Link>
-                                    <p>online</p>
-                                </div>
-                            </li>
-
-                            {/* <li>
-                                <img src={defaultAvatarImg} height="40" width="40"/>
-                                
-                                <div className="profile-contacts-info-group">
-                                    <Link to="/">Vitinho</Link>
-                                    <p>online</p>
-                                </div>
-                            </li>
-
-                            <li>
-                                <img src={defaultAvatarImg} height="40" width="40"/>
-                                
-                                <div className="profile-contacts-info-group">
-                                    <Link to="/">Vitinho</Link>
-                                    <p>online</p>
-                                </div>
-                            </li>
-
-                            <li>
-                                <img src={defaultAvatarImg} height="40" width="40"/>
-                                
-                                <div className="profile-contacts-info-group">
-                                    <Link>Vitinho</Link>
-                                    <p>online</p>
-                                </div>
-                            </li>
-
-                            <li>
-                                <img src={defaultAvatarImg} height="40" width="40"/>
-                                
-                                <div className="profile-contacts-info-group">
-                                    <Link>Vitinho</Link>
-                                    <p>online</p>
-                                </div>
-                            </li>
-
-                            <li>
-                                <img src={defaultAvatarImg} height="40" width="40"/>
-                                
-                                <div className="profile-contacts-info-group">
-                                    <Link>Vitinho</Link>
-                                    <p>online</p>
-                                </div>
-                            </li>
-
-                            <li>
-                                <img src={defaultAvatarImg} height="40" width="40"/>
-                                
-                                <div className="profile-contacts-info-group">
-                                    <Link>Vitinho</Link>
-                                    <p>online</p>
-                                </div>
-                            </li>
-
-                            <li>
-                                <img src={defaultAvatarImg} height="40" width="40"/>
-                                
-                                <div className="profile-contacts-info-group">
-                                    <Link>Vitinho</Link>
-                                    <p>online</p>
-                                </div>
-                            </li>
-
-                            <li>
-                                <img src={defaultAvatarImg} height="40" width="40"/>
-                                
-                                <div className="profile-contacts-info-group">
-                                    <Link>Vitinho</Link>
-                                    <p>online</p>
-                                </div>
-                            </li>
-
-                            <li>
-                                <img src={defaultAvatarImg} height="40" width="40"/>
-                                
-                                <div className="profile-contacts-info-group">
-                                    <Link>Vitinho</Link>
-                                    <p>online</p>
-                                </div>
-                            </li> */}
-                        </ul>
-                    </div>
-                </div>
+                <Contacts userId={props.userId} />
 
                 <div id="profile-info-content">
                     <h2>Personal Information</h2>

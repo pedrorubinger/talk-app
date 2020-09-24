@@ -126,6 +126,7 @@ export function Login(props) {
 
                 await setTimeout(() => {
                     props.history.push('/');
+                    window.location.reload();
                 }, 2000);
             } else {
                 setButtonDisabled(false);
@@ -169,6 +170,7 @@ export function Login(props) {
 
                 await setTimeout(() => {
                     props.history.push('/');
+                    window.location.reload();
                 }, 2000);
             } else {
                 setButtonDisabled(false);

@@ -91,4 +91,46 @@
     padding-top: 5px;
 }
 
+.contact-request-sent {
+    line-height: 1.6;
+}
+
+.contact-request-sent svg {
+    margin-left: 4px;
+    padding-top: 5px;
+}
+
+.pending-request-buttons-box {
+    /* background-color: orange; */
+    display: flex;
+    justify-content: space-between;
+    width: 135px;
+}
+
+.pending-request-buttons-box button {
+    font-size: 11px;
+    width: 65px;
+    padding: 6px 5px;
+}
+
+.pending-request-buttons-box .accept-request-button {
+    background-color: rgb(17, 197, 71);
+    border: 1px solid rgb(8, 163, 54);
+    transition: .5s;
+}
+
+.pending-request-buttons-box .accept-request-button:hover {
+    background-color: rgb(18, 165, 62);
+}
+
+.pending-request-buttons-box .reject-request-button {
+    background-color: rgb(231, 67, 67);
+    border: 1px solid rgb(212, 32, 32);
+    transition: .5s;
+}
+
+.pending-request-buttons-box .reject-request-button:hover {
+    background-color: rgb(211, 33, 33);
+}
+
 /* MEDIA QUERIES */

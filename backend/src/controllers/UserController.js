@@ -6,6 +6,24 @@ const validateData = require('../utils/validatesData');
 
 const checkCredentials = async (user_nick, user_password) => {
     return new Promise((resolve, reject) => {
+        if(user_nick === undefined || user_nick === '' || user_nick === null) {
+            reject({
+                success: false,
+                message: "Invalid username"
+            });
+
+            return false;
+        }
+
+        if(user_password === undefined || user_password === '' || user_password === null) {
+            reject({
+                success: false,
+                message: "Invalid password"
+            });
+            
+            return false;
+        }
+
         const sqlSelectData = "SELECT * FROM user WHERE BINARY user_nick = ?";
 
         connection.query(sqlSelectData, [user_nick], async (err, results, fields) => {
@@ -22,16 +40,19 @@ const checkCredentials = async (user_nick, user_password) => {
                     message: "Authentication failure!" // User not found
                 });
             }
-    
-            const match = await bcrypt.compare(user_password, results[0].user_password);
+
+            const match = results[0] ?
+                await bcrypt.compare(user_password, results[0].user_password) : false;
 
             if(!match) {
                 reject({
                     success: false,
-                    message: "Unauthorized: Invalid username or password!"
+                    message: "Invalid username or password!"
                 });
             } else {
                 resolve({
+                    user_id: results[0].user_id,
+                    user_nick: results[0].user_nick,
                     success: true,
                     message: "Authorized: Valid username or password!"
                 })
@@ -111,59 +132,40 @@ module.exports = {
             });
         }
 
-        const sqlSignIn = "SELECT * FROM user WHERE BINARY user_nick = ?";
+        let res = null;
 
-        await connection.query(sqlSignIn, [request.body.user_nick], async (err, results, fields) => {
+        try {
+            res = await checkCredentials(request.body.user_nick, request.body.user_password);
+        } catch (error) {
+            return response.status(401).send(error);
+        }
+
+        /* From here, the user is authenticated */
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = (now.getMonth() < 10 ? "0" + (now.getMonth() + 1) : (now.getMonth() + 1));
+        const day = (now.getDate() < 10 ? "0" + now.getDate() : now.getDate());
+        const user_last_visit = year + "-" + month + "-" + day + " " + now.toLocaleTimeString();
+        const sqlUpdatesLastVisit = "UPDATE user SET user_last_visit = ? WHERE user_id = ?";
+        
+        connection.query(sqlUpdatesLastVisit, [user_last_visit, res.user_id], (err, results, fields) => {
             if(err) {
                 return response.status(500).send({
                     success: false,
                     message: "Error trying to sign in: " + err
                 });
             }
+        });
 
-            if(results == null || results.length == 0) {
-                return response.status(401).send({
-                    success: false,
-                    message: "Authentication failure!" // User not found
-                });
-            }
+        const userId = res.user_id;
+        const nick = res.user_nick;
+        const token = await jwt.sign({ user_id: userId }, secKey.secret, { expiresIn: 86400 });
 
-            const match = await bcrypt.compare(request.body.user_password, results[0].user_password);
-
-            if(!match) {
-                return response.status(401).send({
-                    success: false,
-                    message: "Invalid username or password!"
-                });
-            }
-
-            /* From here, the user is authenticated */
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = (now.getMonth() < 10 ? "0" + (now.getMonth() + 1) : (now.getMonth() + 1));
-            const day = (now.getDate() < 10 ? "0" + now.getDate() : now.getDate());
-            const user_last_visit = year + "-" + month + "-" + day + " " + now.toLocaleTimeString();
-            const sqlUpdatesLastVisit = "UPDATE user SET user_last_visit = ? WHERE user_id = ?";
-            
-            connection.query(sqlUpdatesLastVisit, [user_last_visit, results[0].user_id], (err, results, fields) => {
-                if(err) {
-                    return response.status(500).send({
-                        success: false,
-                        message: "Error trying to sign in: " + err
-                    });
-                }
-            });
-
-            const userId = results[0].user_id;
-            const nick = results[0].user_nick;
-            const token = await jwt.sign({ user_id: userId }, secKey.secret, { expiresIn: 86400 });
-
-            return response.status(200).send({
-                user_id: userId,
-                user_nick: nick,
-                success: true,
-                token,
-            });
+        return response.status(200).send({
+            user_id: userId,
+            user_nick: nick,
+            success: true,
+            token,
         });
     },
 

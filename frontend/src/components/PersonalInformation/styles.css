@@ -1,0 +1,59 @@
+/* PERSONAL INFORMATION COMPONENT CSS */
+
+#profile-container #profile-main-content {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-top: 110px;
+}
+
+#profile-container #profile-info-content {
+    background-color: #fff;
+    border: 1px solid rgb(204, 200, 200);
+    border-radius: 4px;
+    box-shadow: 2px 2px 2px rgb(192, 190, 190);
+    max-width: 570px;
+    padding: 0px;
+    min-width: 550px;
+    display: flex;
+    flex-direction: column;
+}
+
+#profile-container #profile-info-content #profile-personal-info-box {
+    margin: 1.8rem auto 2.2rem auto;
+    display: flex;
+}
+
+#profile-container hr {
+    color: rgb(230, 227, 227);
+}
+
+#profile-container #profile-info-content #profile-personal-info-box img#profile-personal-info-img {
+    border-radius: 50%;
+    border: 2px solid rgb(167, 167, 167);
+}
+
+#profile-container #profile-info-content #profile-personal-info-box #profile-personal-info-data {
+    margin-left: 2.5rem;
+    font-weight: 300;
+}
+
+#profile-container #profile-info-content #profile-personal-info-box #profile-personal-info-data h3,
+#profile-container #profile-info-content #profile-personal-info-box #profile-personal-info-data p {
+    padding: 5px;
+    font-size: .95rem;
+}
+
+#profile-container #profile-info-content #profile-personal-info-box #profile-personal-info-data h3 {
+    font-size: 1.35rem;
+}
+
+#profile-container #profile-info-content button#edit-profile-button {
+    margin: auto;
+    margin: .2rem auto 2rem auto;
+    display: block;
+    width: 240px;
+}
+
+/* MEDIA QUERIES */

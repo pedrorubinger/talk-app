@@ -1,0 +1,12 @@
+/* FRIEND REQUEST COMPONENT CSS */
+
+#friend-request-container {
+    width: 350px;
+    height: 358px;
+    background-color: #fff;
+    border: 1px solid rgb(204, 200, 200);
+    border-radius: 4px;
+    box-shadow: 2px 2px 2px rgb(192, 190, 190);
+    margin: auto;
+    margin-top: 30px;
+}

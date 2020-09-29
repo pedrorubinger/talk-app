@@ -1,0 +1,46 @@
+/* ACCOUNT EDITING COMPONENT CSS */
+
+#account-editing-container h2 {
+    margin-top: 28px;
+}
+
+#profile-container #profile-info-content #profile-personal-edit-box {
+    margin: 20px auto 5px auto;
+    width: 85%;
+    padding: 0 15px 30px 15px;
+}
+
+#profile-container .error-messages-box {
+    margin: .8rem auto;
+}
+
+#profile-container #profile-info-content #profile-personal-edit-box .edit-profile-input-group:not(:first-child) {
+    margin-top: 1.5rem;
+}
+
+#profile-container #profile-info-content #profile-personal-edit-box #edit-profile-buttons-group {
+    margin-top: 2rem;
+}
+
+#profile-container #profile-info-content #profile-personal-edit-box #edit-profile-buttons-group #edit-profile-discard-button {
+    margin-left: 14px;
+    background-color: rgb(231, 67, 67);
+    border: 1px solid rgb(212, 32, 32);
+    transition: .5s;
+}
+
+#profile-container #profile-info-content #profile-personal-edit-box #edit-profile-buttons-group #edit-profile-discard-button:hover {
+    background-color: rgb(206, 19, 19);
+}
+
+#profile-container #profile-info-content #profile-personal-edit-box #edit-profile-buttons-group #edit-profile-save-button {
+    background-color: rgb(17, 197, 71);
+    border: 1px solid rgb(8, 163, 54);
+    transition: .5s;
+}
+
+#profile-container #profile-info-content #profile-personal-edit-box #edit-profile-buttons-group #edit-profile-save-button:hover {
+    background-color: rgb(10, 155, 53);
+}
+
+/* MEDIA QUERIES */

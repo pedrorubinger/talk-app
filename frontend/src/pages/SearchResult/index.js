@@ -7,17 +7,19 @@ import './styles.css';
 import defaultAvatarImg from '../../assets/profile-default.jpg';
 import { SearchPepopleBar } from '../../components/SearchPeopleBar';
 import { api } from '../../services/api';
+import { useUserContext } from '../../context/UserContext';
 
-export function SearchResult(props) {
+export function SearchResult() {
     const history = useHistory();
     const [mounted, setMount] = useState(false);
     const [recipientRequestId, setRecipientRequestId] = useState(-1);
     const [contactsList, setContactsList] = useState([]);
     const [resultList, setResultList] = useState([]);
+    const { userId } = useUserContext();
 
     useEffect(() => {
         const getRequests = async () => {
-            const requestsList = await api.get('/api/friendship/request/' + props.userId)
+            const requestsList = await api.get('/api/friendship/request/' + userId)
                 .then(res => {
                     if(res.data.success)
                         return res.data.results
@@ -27,14 +29,14 @@ export function SearchResult(props) {
                         return [];
                     else
                         console.log(error);
+                        // implement error handling...
                 });
 
-            // console.log(requestsList);
             await getContacts(requestsList);
         } 
 
         const getContacts = async (requestsList) => {
-            await api.get('/api/contacts/' + props.userId)
+            await api.get('/api/contacts/' + userId)
                 .then(res => {
                     if(res.data.success)
                         setContactsList(res.data.results);
@@ -58,10 +60,10 @@ export function SearchResult(props) {
                 }
 
                 const pendingRequest = () => {
-                    return requestsList.some(request => request.req_recipient_id === props.userId);
+                    return requestsList.some(request => request.req_recipient_id === userId);
                 }
 
-                let result = history.location.state.searchData.filter(user => user.user_id !== props.userId);
+                let result = history.location.state.searchData.filter(user => user.user_id !== userId);
 
                 await result.map(item => {
                     if(contactExists(item.user_id))
@@ -92,7 +94,7 @@ export function SearchResult(props) {
 
         const data = {
             req_recipient_id: id,
-            user_id: props.userId
+            user_id: userId
         };
 
         await api.post('/api/friendship/request/', data)

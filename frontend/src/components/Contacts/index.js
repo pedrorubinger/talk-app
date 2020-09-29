@@ -4,13 +4,15 @@ import { Link } from 'react-router-dom';
 import './styles.css';
 import defaultAvatarImg from '../../assets/profile-default.jpg';
 import { api } from '../../services/api';
+import { useUserContext } from '../../context/UserContext';
 
-export default function Contacts(props) {
+export default function Contacts() {
     const [contactsList, setContactsList] = useState([]);
+    const { userId } = useUserContext();
 
     useEffect(() => {
         const getContacts = async () => {
-            await api.get('/api/contacts/' + props.userId)
+            await api.get('/api/contacts/' + userId)
                 .then(res => {
                     contactsList(res.data.results);
                 })

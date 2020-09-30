@@ -172,7 +172,7 @@ module.exports = {
     getByNameOrNick(request, response) {
         const content = request.params.user_name;
         const sqlGetUsers = `
-            SELECT user_id, user_name, user_nick, user_location, user_image
+            SELECT user_id, user_name, user_nick, user_location, user_image, user_bio
             FROM user
             WHERE user_name LIKE CONCAT('%', ?, '%')
                 OR user_nick LIKE CONCAT('%', ?, '%');                
@@ -263,7 +263,9 @@ module.exports = {
                    user_permissions,
                    user_last_visit,
                    user_instagram_account,
-                   user_facebook_account
+                   user_facebook_account,
+                   user_location,
+                   user_bio
             FROM user
             WHERE user_id = ?
         `;
@@ -292,6 +294,8 @@ module.exports = {
                 last_visit: results[0].user_last_visit,
                 instagram: results[0].user_instagram_account,
                 facebook: results[0].user_facebook_account,
+                location: results[0].user_location,
+                bio: results[0].user_bio
             });
         });
     },
@@ -309,7 +313,9 @@ module.exports = {
                 user_email = ?,
                 user_password = ?,
                 user_instagram_account = ?,
-                user_facebook_account = ?
+                user_facebook_account = ?,
+                user_location = ?,
+                user_bio = ?
             WHERE user_id = ?
         `;
 
@@ -321,6 +327,8 @@ module.exports = {
             hashedPassword,
             request.body.user_instagram_account,
             request.body.user_facebook_account,
+            request.body.user_location,
+            request.body.user_bio,
             request.body.user_id
         ]
 
@@ -333,7 +341,7 @@ module.exports = {
             }
 
             return response.status(200).send({
-                success: true,   
+                success: true,
                 message: "Your profile was successfully updated!"
             });
         })

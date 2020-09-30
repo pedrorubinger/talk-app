@@ -27,5 +27,6 @@ routes.get('/api/contacts/:user_id', checkRequestAuthentication, ContactsControl
 // REQUESTS CONTROLLER
 routes.post('/api/friendship/request/', checkRequestAuthentication, RequestsController.create);
 routes.get('/api/friendship/request/:user_id', checkRequestAuthentication, RequestsController.getById);
+routes.get('/api/friendship/request/user/:user_id', checkRequestAuthentication, RequestsController.getByUserId);
 
 module.exports = routes;

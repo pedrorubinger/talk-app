@@ -59,5 +59,36 @@ module.exports = {
                 results
             });
         });
+    },
+
+    getByUserId(request, response) {
+        const sqlGetRequests = `
+            SELECT req_recipient_id, r.user_id, req_created_at, user_nick, user_name, user_location
+            FROM request r, user u
+            WHERE req_recipient_id = ? AND u.user_id = r.user_id
+        `;
+
+        connection.query(sqlGetRequests, [request.params.user_id], (err, results, fields) => {
+            if(err) {
+                return response.status(500).send({
+                    success: false,
+                    message: "Error fetching requests: " + err
+                });
+            }
+
+            if(results.length == 0 || results == null) {
+                return response.status(404).send({
+                    success: false,
+                    message: "Requests not found!",
+                    results
+                });
+            }
+
+            return response.status(200).send({
+                success: true,
+                message: "Requests were found!",
+                results
+            });
+        });
     }
 };

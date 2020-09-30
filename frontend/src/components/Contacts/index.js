@@ -30,9 +30,10 @@ export default function Contacts() {
             <h2>Contacts</h2>
             
             <div id="profile-contacts-list">
-                {
+                {/* {
+                    // FAKE DATA...
                     contactsList ?
-                        <p className="no-contacts-message">This user has no contacts.</p>
+                        <p className="nothing-found-message">You don't have any contacts yet.</p>
                     :
                         <ul>
                             <li>
@@ -44,7 +45,8 @@ export default function Contacts() {
                                 </div>
                             </li>
                         </ul>
-                }
+                } */}
+                <p className="nothing-found-message">You don't have any contacts yet.</p>
             </div>
         </div>
     )

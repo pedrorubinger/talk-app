@@ -23,6 +23,8 @@ export default function PrivateRoute({component: Component, ...rest}) {
                 userLastVisit: result.userLastVisit,
                 facebook: result.facebook,
                 instagram: result.instagram,
+                location: result.location,
+                bio: result.bio
             });
 
             return true;

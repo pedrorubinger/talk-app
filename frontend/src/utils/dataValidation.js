@@ -72,17 +72,16 @@ export const validatesSignInData = (nick, password) => {
     return { invalidData: "", message: "Valid" };
 }
 
-export const validatesProfileData = (name, email, currentPassword, newPassword, instagram, facebook) => {
+export const validatesProfileData = (name, email, currentPassword, newPassword, instagram, facebook, location, bio) => {
     let invalidFields = [];
     let hasEmptyField = false;
     let hasNotAllowedChars = false;
 
-    if(newPassword === null)
-        newPassword = '';
-    if(facebook === null)
-        facebook = '';
-    if(instagram === null)
-        instagram = '';
+    if(newPassword === null) newPassword = '';
+    if(facebook === null) facebook = '';
+    if(instagram === null) instagram = '';
+    if(location === null) location = '';
+    if(bio === null) bio = '';
 
     if(!name) {
         invalidFields.push('realName');
@@ -136,6 +135,16 @@ export const validatesProfileData = (name, email, currentPassword, newPassword, 
     if(facebook !== '' && (facebook.match(allowedCharsForNickAndPassword) === null
         || facebook.length < 4 || facebook.length > 30)) {
         invalidFields.push('facebook');
+        hasNotAllowedChars = true;
+    }
+
+    if(location !== '' && (location.length < 3 || location.length > 45)) {
+        invalidFields.push('location');
+        hasNotAllowedChars = true;
+    }
+
+    if(bio !== '' && bio.length > 85) {
+        invalidFields.push('bio');
         hasNotAllowedChars = true;
     }
 

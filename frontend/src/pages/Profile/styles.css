@@ -3,9 +3,9 @@
 #profile-container {
     position: absolute;
     width: 100%;
-    height: 700px;
+    /* height: 1240px; */
+    padding-bottom: 60px;
     background-color: rgb(250, 250, 250);
-    /* background-image: url('../../assets/dark-background.jpg'); */
 }
 
 #profile-container h1 {
@@ -28,13 +28,37 @@
     margin: auto;
     margin-bottom: 12px;
     text-transform: uppercase;
-    /* background-color: rgb(207, 207, 207); */
-    /* background-color: rgb(5, 40, 87); */
     background-color: rgb(87, 87, 87);
     width: 100%;
     height: 50px;
     border-bottom: 1px solid rgb(184, 183, 183);
     padding: 12px 25px;
+}
+
+#prof-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    margin-top: 80px;
+    width: 100%;
+}
+
+#profile-content-group-1,
+#profile-content-group-2 {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#profile-content-group-2 {
+    margin-top: 40px;
+    align-items: flex-start;
+    /* background-color: purple; */
+    height: 570px;
 }
 
 /* MEDIA QUERIES */

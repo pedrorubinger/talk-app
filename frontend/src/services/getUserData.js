@@ -11,7 +11,9 @@ export const getUserData = async id => {
                     email: response.data.email,
                     userLastVisit: response.data.last_visit,
                     instagram: response.data.instagram,
-                    facebook: response.data.facebook
+                    facebook: response.data.facebook,
+                    location: response.data.location,
+                    bio: response.data.bio
                 }
             }
         })

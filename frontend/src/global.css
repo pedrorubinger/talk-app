@@ -93,3 +93,9 @@ h2.loading-page-message {
   flex-direction: column;
   opacity: .85;
 }
+
+p.nothing-found-message {
+  font-weight: 300;
+  font-size: 17px;
+  text-align: center;
+}

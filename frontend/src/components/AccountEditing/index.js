@@ -17,20 +17,23 @@ export default function AccountEditing() {
     const [userEmailField, setUserEmailField] = useState('');
     const [userInstagramField, setUserInstagramField] = useState('');
     const [userFacebookField, setUserFacebookField] = useState('');
+    const [userBioField, setUserBioField] = useState('');
+    const [userLocationField, setUserLocationField] = useState('');
     // Data validation
     const [invalidAccountEditingDataMessage, setInvalidAccountEditingDataMessage] = useState('');
     // Buttons and form visibility
-    const [discardChangesProccess, setDiscardLoading] = useState(false);
     const [saveChangesProccess, setSaveLoading] = useState(false);
     const [buttonsAreDisabled, setDisableButtons] = useState(false);
     // UserContext
-    const { userId, userProfileData, setAccountEditing } = useUserContext();
+    const { userId, userProfileData } = useUserContext();
 
     useEffect(() => {
         setUsernameField(userProfileData.name);
         setUserEmailField(userProfileData.email);
         setUserInstagramField(userProfileData.instagram);
         setUserFacebookField(userProfileData.facebook);
+        setUserBioField(userProfileData.bio);
+        setUserLocationField(userProfileData.location);
         setReady(true);
     }, []);
 
@@ -41,6 +44,8 @@ export default function AccountEditing() {
         let newPasswordInput = document.getElementById('profile-new-password');
         let facebookInput = document.getElementById('profile-facebook');
         let instagramInput = document.getElementById('profile-instagram');
+        let locationInput = document.getElementById('profile-location');
+        let bioInput = document.getElementById('profile-bio');
 
         if(fields.indexOf('valid') !== -1) {            
             usernameInput.style.border = '1px solid rgb(170, 170, 170)';
@@ -80,6 +85,16 @@ export default function AccountEditing() {
             instagramInput.style.border = '1px solid rgb(170, 170, 170)';
         else
             instagramInput.style.border = '1px solid red';
+
+        if(fields.indexOf('location') === -1)
+            locationInput.style.border = '1px solid rgb(170, 170, 170)';
+        else
+            locationInput.style.border = '1px solid red';
+
+        if(fields.indexOf('bio') === -1)
+            bioInput.style.border = '1px solid rgb(170, 170, 170)';
+        else
+            bioInput.style.border = '1px solid red';
     }
 
     const updateProfile = async data => {
@@ -114,13 +129,21 @@ export default function AccountEditing() {
             invalidFields,
             hasEmptyField,
             hasNotAllowedChars
-        } = await validatesProfileData(userNameField, userEmailField, currentUserPasswordField, 
-                newUserPasswordField, userInstagramField, userFacebookField);
+        } = await validatesProfileData(
+                userNameField,
+                userEmailField,
+                currentUserPasswordField, 
+                newUserPasswordField, 
+                userInstagramField,
+                userFacebookField,
+                userLocationField,
+                userBioField
+            );
 
         if(invalidFields.length > 0) {
             const messages = [
                     (hasEmptyField ? 'You must complete all required fields (*)!' : ''),
-                    (hasNotAllowedChars ? 'You must use only allowed characters!' : '')
+                    (hasNotAllowedChars ? 'You must use only allowed characters and respect the maximum size!' : '')
             ];
 
             setInvalidAccountEditingDataMessage(messages);
@@ -146,6 +169,8 @@ export default function AccountEditing() {
                     user_email: userEmailField,
                     user_instagram_account: (userInstagramField === '' ? null : userInstagramField),
                     user_facebook_account: (userFacebookField === '' ? null : userFacebookField),
+                    user_location: (userLocationField === '' ? null : userLocationField),
+                    user_bio: (userBioField === '' ? null : userBioField),
                     user_id: userId
                 }
 
@@ -194,25 +219,6 @@ export default function AccountEditing() {
         setDisableButtons(false);
     }
 
-    const hideEditForm = event => {
-        event.preventDefault();
-        setDiscardLoading(true);
-        setDisableButtons(true);
-
-        document.getElementById('edit-profile-button').style.display = 'block';
-        document.getElementById('profile-container').style.height = '700px';
-
-        setUsernameField(userProfileData.name);
-        setUserEmailField(userProfileData.email);
-        setUserInstagramField(userProfileData.instagram);
-        setUserFacebookField(userProfileData.facebook);
-        setDiscardLoading(false);
-        showInvalidInput('valid');
-        setInvalidAccountEditingDataMessage('');
-        setDisableButtons(false);
-        setAccountEditing(false);
-    }
-
     if(!ready)
         return <h2>Please wait. The page is loading...</h2>
 
@@ -240,109 +246,137 @@ export default function AccountEditing() {
             }
 
             <div id="profile-personal-edit-box">
-                <div className="edit-profile-input-group">
-                    <label htmlFor="profile-name">
-                        Name <span style={{ color: 'red' }}>*</span>
-                    </label>
+                <div className="edit-profile-field-group" id="edit-profile-group-1">
+                    <div className="edit-profile-input-group">
+                        <label htmlFor="profile-name">
+                            Name <span style={{ color: 'red' }}>*</span>
+                        </label>
 
-                    <input
-                        type="text"
-                        id="profile-name"
-                        placeholder="Enter your name"
-                        value={userNameField}
-                        onChange={e => setUsernameField(e.target.value)}
-                    >
-                    </input>
+                        <input
+                            type="text"
+                            id="profile-name"
+                            placeholder="Enter your name"
+                            value={userNameField}
+                            maxLength="20"
+                            onChange={e => setUsernameField(e.target.value)}
+                        >
+                        </input>
+                    </div>
+
+                    <div className="edit-profile-input-group">
+                        <label htmlFor="profile-email">
+                            Email <span style={{ color: 'red' }}>*</span>
+                        </label>
+
+                        <input
+                            type="email"
+                            id="profile-email"
+                            placeholder="Enter your new email address"
+                            value={userEmailField}
+                            maxLength="40"
+                            onChange={e => setUserEmailField(e.target.value)}
+                        >
+                        </input>
+                    </div>
                 </div>
 
-                <div className="edit-profile-input-group">
-                    <label htmlFor="profile-email">
-                        Email <span style={{ color: 'red' }}>*</span>
-                    </label>
+                <div className="edit-profile-field-group" id="edit-profile-group-2">
+                    <div className="edit-profile-input-group">
+                        <label htmlFor="profile-current-password">
+                            Current Password <span style={{ color: 'red' }}>*</span>
+                        </label>
 
-                    <input
-                        type="email"
-                        id="profile-email"
-                        placeholder="Enter your new email address"
-                        value={userEmailField}
-                        onChange={e => setUserEmailField(e.target.value)}
-                    >
-                    </input>
+                        <input
+                            type="password"
+                            id="profile-current-password"
+                            placeholder="Enter your current password"
+                            maxLength="20"
+                            onChange={e => setCurrentUserPasswordField(e.target.value)}
+                        >
+                        </input>
+                    </div>
+
+                    <div className="edit-profile-input-group">
+                        <label htmlFor="profile-new-password">
+                            New password
+                        </label>
+                        
+                        <input
+                            type="password"
+                            id="profile-new-password"
+                            placeholder="Enter your new password"
+                            maxLength="20"
+                            onChange={e => setNewUserPasswordField(e.target.value)}
+                        >
+                        </input>
+                    </div>
                 </div>
 
-                <div className="edit-profile-input-group">
-                    <label htmlFor="profile-current-password">
-                        Current Password <span style={{ color: 'red' }}>*</span>
-                    </label>
+                <div className="edit-profile-field-group" id="edit-profile-group-3">
+                    <div className="edit-profile-input-group">
+                        <label htmlFor="profile-instagram">Instagram:</label>
 
-                    <input
-                        type="password"
-                        id="profile-current-password"
-                        autoFocus
-                        placeholder="Enter your current password"
-                        onChange={e => setCurrentUserPasswordField(e.target.value)}
-                    >
-                    </input>
+                        <input
+                            type="text"
+                            id="profile-instagram"
+                            placeholder="Enter your Instagram username"
+                            value={userInstagramField === null ? '' : userInstagramField}
+                            maxLength="30"
+                            onChange={e => setUserInstagramField(e.target.value)}  
+                        >
+                        </input>
+                    </div>
+
+                    <div className="edit-profile-input-group">
+                        <label htmlFor="profile-facebook">Facebook:</label>
+                        <input
+                            type="text"
+                            id="profile-facebook"
+                            placeholder="Enter your Facebook username"
+                            value={userFacebookField === null ? '' : userFacebookField}
+                            maxLength="30"
+                            onChange={e => setUserFacebookField(e.target.value)}
+                        >
+                        </input>
+                    </div>
                 </div>
 
-                <div className="edit-profile-input-group">
-                    <label htmlFor="profile-new-password">
-                        New password
-                    </label>
-                    
-                    <input
-                        type="password"
-                        id="profile-new-password"
-                        placeholder="Enter your new password"
-                        onChange={e => setNewUserPasswordField(e.target.value)}
-                    >
-                    </input>
+                <div className="edit-profile-field-group" id="edit-profile-group-4">
+                    <div className="edit-profile-input-group">
+                            <label htmlFor="profile-bio">Bio:</label>
+                            <input
+                                type="text"
+                                id="profile-bio"
+                                placeholder="Enter your bio/status"
+                                value={userBioField === null ? '' : userBioField}
+                                maxLength="85"
+                                onChange={e => setUserBioField(e.target.value)}
+                            >
+                            </input>
+                    </div>
+
+                    <div className="edit-profile-input-group">
+                        <label htmlFor="profile-location">Location:</label>
+                        <input
+                            type="text"
+                            id="profile-location"
+                            placeholder="Enter your location"
+                            value={userLocationField === null ? '' : userLocationField}
+                            maxLength="45"
+                            onChange={e => setUserLocationField(e.target.value)}
+                        >
+                        </input>
+                    </div>
                 </div>
 
-                <div className="edit-profile-input-group">
-                    <label htmlFor="profile-instagram">Instagram:</label>
-                    
-                    <input
-                        type="text"
-                        id="profile-instagram"
-                        placeholder="Enter your Instagram username"
-                        value={userInstagramField === null ? '' : userInstagramField}
-                        onChange={e => setUserInstagramField(e.target.value)}  
-                    >
-                    </input>
-                </div>
-
-                <div className="edit-profile-input-group">
-                    <label htmlFor="profile-facebook">Facebook:</label>
-                    <input
-                        type="text"
-                        id="profile-facebook"
-                        placeholder="Enter your Facebook username"
-                        value={userFacebookField === null ? '' : userFacebookField}
-                        onChange={e => setUserFacebookField(e.target.value)}
-                    >
-                    </input>
-                </div>
-
-                <div id="edit-profile-buttons-group">
-                    <button
-                        id="edit-profile-save-button"
-                        title="Save changes and update your profile"
-                        onClick={submitAccountEditing}
-                        disabled={buttonsAreDisabled}
-                    >
-                        { saveChangesProccess ? "Saving..." : "Save Changes" }
-                    </button>
-
-                    <button
-                        id="edit-profile-discard-button"
-                        title="Discard changes and keep everything as it was" 
-                        onClick={hideEditForm}
-                        disabled={buttonsAreDisabled}
-                    >
-                        { discardChangesProccess ? "Discarding..." : "Discard Changes" }
-                    </button>
-                </div>
+                <button
+                    id="edit-profile-save-button"
+                    title="Save changes and update your profile"
+                    onClick={submitAccountEditing}
+                    disabled={buttonsAreDisabled}
+                >
+                    { saveChangesProccess ? "Saving..." : "Save Changes" }
+                </button>
             </div>
         </div>
     );

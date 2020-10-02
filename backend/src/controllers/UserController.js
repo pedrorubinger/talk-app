@@ -174,8 +174,8 @@ module.exports = {
         const sqlGetUsers = `
             SELECT user_id, user_name, user_nick, user_location, user_image, user_bio
             FROM user
-            WHERE user_name LIKE CONCAT('%', ?, '%')
-                OR user_nick LIKE CONCAT('%', ?, '%');                
+            WHERE user_name LIKE CONCAT(?, '%')
+                OR user_nick LIKE CONCAT(?, '%');                
         `;
 
         connection.query(sqlGetUsers, [content, content], (err, results, fields) => {

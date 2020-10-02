@@ -7,12 +7,12 @@
     box-shadow: 2px 2px 2px rgb(192, 190, 190);
     opacity: .95;
     width: 60%;
-    min-height: 310px;
+    height: 310px;
+    overflow: auto;
 }
 
 #friend-request-content {
     display: flex;
     flex-direction: column;
     padding: 5px 25px 20px 25px;
-    overflow: auto;
 }

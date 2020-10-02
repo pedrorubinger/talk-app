@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import './styles.css';
-import defaultAvatarImg from '../../assets/profile-default.jpg';
+// import defaultAvatarImg from '../../assets/profile-default.jpg';
 import { api } from '../../services/api';
 import { useUserContext } from '../../context/UserContext';
 
@@ -14,9 +14,10 @@ export default function Contacts() {
         const getContacts = async () => {
             await api.get('/api/contacts/' + userId)
                 .then(res => {
-                    contactsList(res.data.results);
+                    setContactsList(res.data.results);
                 })
                 .catch(error => {
+                    console.log(error);
                     if(error.response.status === 404)
                         setContactsList([]);
                 });

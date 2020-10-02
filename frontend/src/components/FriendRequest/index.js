@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useUserContext } from '../../context/UserContext';
-import { api } from '../../services/api';
 
 import './styles.css';
-import defaultAvatarImg from '../../assets/profile-default.jpg';
+
+import { useUserContext } from '../../context/UserContext';
+import { api } from '../../services/api';
+import FriendRequestList from '../FriendRequestList';
 
 export function FriendRequest() {
     const [resultList, setResultList] = useState([]);
+    const [mounted, setMount] = useState(false);
     const { userId } = useUserContext();
 
     useEffect(() => {
@@ -25,10 +27,20 @@ export function FriendRequest() {
                 });
 
             setResultList(requestsList);
-        } 
+            setMount(true);
+        }
 
         getRequests();
     }, []);
+
+    if(!mounted) {
+        return(
+            <div id="friend-request-container">
+                <h2>Friend Requests</h2>
+                <p className="nothing-found-message">Loading friend requests...</p>
+            </div>
+        );
+    }
 
     return(
         <div id="friend-request-container">
@@ -37,47 +49,9 @@ export function FriendRequest() {
             <div id="friend-request-content">
                 {
                     resultList.length === 0 ?
-                    <p className="nothing-found-message">You don't have any friend requests yet.</p>
+                        <p className="nothing-found-message">You don't have any friend requests yet.</p>
                     :
-                    resultList.map(item => {
-                        return(
-                            <div key={item.user_id} className="search-result-card-item">
-                                <img
-                                    src={item.user_image || defaultAvatarImg}
-                                    height="80"
-                                    width="80"
-                                    alt="profile"
-                                />
-
-                                <div className="search-result-card-item-info">
-                                    <div className="search-result-card-item-title">
-                                        <p>
-                                            <strong>{item.user_name}</strong>
-                                        </p>
-
-                                        <div className="pending-request-buttons-box">
-                                            <button
-                                                className="accept-request-button"
-                                                title={`Accept ${item.user_name}'s friend request`}
-                                            >
-                                                Accept
-                                            </button>
-                                            
-                                            <button
-                                                className="reject-request-button"
-                                                title={`Reject ${item.user_name}'s friend request`}
-                                            >
-                                                Reject
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <p>@{item.user_nick}</p>
-                                    <p>{item.user_location || 'Unknown location'}</p>
-                                </div>
-                            </div>
-                        );
-                    })
+                        resultList.map(item => <FriendRequestList key={item.user_id} item={item} label={"pending"} />)
                 }
             </div>
         </div>

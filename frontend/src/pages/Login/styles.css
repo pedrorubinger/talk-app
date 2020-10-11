@@ -84,6 +84,10 @@
     justify-content: center;
 }
 
+#login-form-container .error-messages-box {
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
 
 #login-form-container #login-form a#forgot-password-link {
     font-size: .7rem;

@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { AiFillHome } from 'react-icons/ai';
 
 import './styles.css';
+
 import { DonateForm } from '../../components/DonateForm';
+import Footer from '../../components/Footer';
 
 export function Contribute() {
     return(
@@ -63,8 +65,10 @@ export function Contribute() {
                 Quisque porttitor ante sed erat tincidunt fringilla non eget nisl. Donec interdum sed libero eu placerat.
                 In lacinia ultricies congue. Suspendisse pellentesque diam ut ligula elementum, eu elementum velit pharetra.
 
-                <DonateForm></DonateForm>
+                <DonateForm />
             </section>
+
+            <Footer />
         </div>
     );
 }

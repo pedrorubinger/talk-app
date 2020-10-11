@@ -1,53 +1,62 @@
 import React, { useEffect, useState } from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import './styles.css';
-// import defaultAvatarImg from '../../assets/profile-default.jpg';
-import { api } from '../../services/api';
+import defaultAvatarImg from '../../assets/profile-default.jpg';
+
 import { useUserContext } from '../../context/UserContext';
+import { getContacts } from '../../utils/getContacts';
 
 export default function Contacts() {
-    const [contactsList, setContactsList] = useState([]);
-    const { userId } = useUserContext();
+    const [mounted, setMount] = useState(false);
+    const { userId, contactsList, setContactsList } = useUserContext();
 
     useEffect(() => {
-        const getContacts = async () => {
-            await api.get('/api/contacts/' + userId)
-                .then(res => {
-                    setContactsList(res.data.results);
-                })
-                .catch(error => {
-                    console.log(error);
-                    if(error.response.status === 404)
-                        setContactsList([]);
-                });
+        const getList = async () => {
+            const list = await getContacts(userId);
+
+            setContactsList(list);
         }
 
-        getContacts();
+        getList();
+        setMount(true);
     }, []);
+
+    if(!mounted) {
+        return(
+            <div id="contacts-content">
+                <h2>Contacts</h2>
+                <p className="nothing-found-message">Loading your contacts...</p>
+            </div>
+        );
+    }
 
     return(
         <div id="contacts-content">
             <h2>Contacts</h2>
             
             <div id="profile-contacts-list">
-                {/* {
-                    // FAKE DATA...
-                    contactsList ?
+                {
+                    contactsList.length === 0 ?
                         <p className="nothing-found-message">You don't have any contacts yet.</p>
                     :
                         <ul>
-                            <li>
-                                <img src={defaultAvatarImg} height="40" width="40" alt="avatar"/>
-                                
-                                <div className="profile-contacts-info-group">
-                                    <Link to="/">Vitinho</Link>
-                                    <p>online</p>
-                                </div>
-                            </li>
+                            {
+                                contactsList.map(item => {
+                                    return(
+                                        <li key={item.user_id}>
+                                            <img src={defaultAvatarImg} height="40" width="40" alt="avatar"/>
+                                            
+                                            <div className="profile-contacts-info-group">
+                                                <Link to="/">{item.user_name}</Link>
+                                                <p>offline</p>
+                                            </div>
+                                        </li>
+                                    );
+                                })
+                            }
                         </ul>
-                } */}
-                <p className="nothing-found-message">You don't have any contacts yet.</p>
+                }
             </div>
         </div>
     )

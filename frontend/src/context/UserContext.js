@@ -6,6 +6,7 @@ export default function UserProvider({ children }) {
     const [userId, setUserId] = useState(-1);
     const [userProfileData, setUserProfileData] = useState({});
     const [accountEditing, setAccountEditing] = useState(false);
+    const [contactsList, setContactsList] = useState([]);
 
     return(
         <UserContext.Provider
@@ -13,9 +14,11 @@ export default function UserProvider({ children }) {
                 userId,
                 userProfileData,
                 accountEditing,
+                contactsList,
                 setUserId,
                 setUserProfileData,
-                setAccountEditing
+                setAccountEditing,
+                setContactsList
             }}
         >
             { children }
@@ -35,7 +38,9 @@ export function useUserContext() {
         userProfileData,
         setUserProfileData,
         accountEditing,
-        setAccountEditing
+        setAccountEditing,
+        contactsList,
+        setContactsList
     } = context;
     
     return {
@@ -44,6 +49,8 @@ export function useUserContext() {
         userProfileData,
         setUserProfileData,
         accountEditing,
-        setAccountEditing
+        setAccountEditing,
+        contactsList,
+        setContactsList
     };
 }

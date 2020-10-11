@@ -45,10 +45,14 @@ export function SearchResult() {
 
                 if(history.location.state === undefined) return;
 
-                const contactExists = username => contactsList.some(contact => contact.contact_username === username);
+                const contactExists = username => contactsList.some(contact => contact.user_nick === username);
                 const friendRequestExists = id => requestsList.some(request => request.req_recipient_id === id);
-                const pendingRequest = id => 
-                    requestsList.some(request => request.req_recipient_id === userId && request.user_id === id);
+                const pendingRequest = id => {
+                    for(let request of requestsList) {
+                        if(request.req_recipient_id === userId && request.user_id === id)
+                            return request.req_recipient_id;
+                    }
+                }
 
                 let result = history.location.state.searchData.filter(user => user.user_id !== userId);
 
@@ -59,8 +63,12 @@ export function SearchResult() {
                     if(friendRequestExists(item.user_id)) item.requestExists = true;
                     else item.requestExists = false;
 
-                    if(pendingRequest(item.user_id)) item.pendingRequest = true;
-                    else item.pedingRequest = false;
+                    const pending = pendingRequest(item.user_id);
+
+                    if(pending) { 
+                        item.pendingRequest = true;
+                        item.req_recipient_id = pending;
+                    } else item.pedingRequest = false;
                 });
 
                 setResultList(result);
@@ -101,17 +109,17 @@ export function SearchResult() {
                         </div>
                     :
                         resultList.map(item => {
-                            return(
-                                item.pendingRequest ?
-                                    <FriendRequestList key={item.user_id} item={item} label={"pending"} /> 
-                                : !item.isContact && !item.requestExists && item.user_id !== recipientRequestId ?
-                                    <FriendRequestList key={item.user_id} item={item} label={"add"} />
-                                : (item.requestExists || item.user_id === recipientRequestId) && !item.isContact ?
-                                    <FriendRequestList key={item.user_id} item={item} label={"sent"} />
-                                :
-                                    <FriendRequestList key={item.user_id} item={item} label={"friends"} />
-                            );
-                        })
+                            if(item.pendingRequest)
+                                item.friend_request_status = 'pending';
+                            else if(!item.isContact && !item.requestExists && item.user_id !== recipientRequestId)
+                                item.friend_request_status = 'add';
+                            else if((item.requestExists || item.user_id === recipientRequestId) && !item.isContact)
+                                item.friend_request_status = 'sent';
+                            else
+                                item.friend_request_status = 'friends';
+
+                            return <FriendRequestList key={item.user_id} item={item} />
+                    })
                 }
             </div>
         </div>

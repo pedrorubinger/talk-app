@@ -1,34 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IoMdPersonAdd } from 'react-icons/io';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 
 import './styles.css';
-import { api } from '../../services/api';
 import defaultAvatarImg from '../../assets/profile-default.jpg';
+
+import { api } from '../../services/api';
 import { useUserContext } from '../../context/UserContext';
 import { useFriendRequestContext } from '../../context/FriendRequestContext';
+import { getContacts } from '../../utils/getContacts';
 
 export default function FriendRequestList(props) {
-    const { item, label } = props;
+    const { item } = props;
     const { setRecipientRequestId } = useFriendRequestContext();
-    const { userId } = useUserContext();
+    const { userId, setContactsList } = useUserContext();
+    const [friend, setFriend] = useState(-1);
+
+    const acceptFriendRequest = async (event, user_id, req_recipient_id) => {
+        event.preventDefault();
+
+        const data = { user_id: user_id, contact_id: req_recipient_id };
+
+        await api.post('/api/contacts/', data)
+            .then(response => {
+                if(response.data.success) {
+                    getContacts(userId)
+                        .then(list => setContactsList(list))
+                        .catch(error => console.log(error)); // implements error handling...
+
+                    setFriend(req_recipient_id);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                // implements error handling...
+            });
+    }
 
     const sendAddRequest = async (event, id) => {
         event.preventDefault();
 
-        const data = {
-            req_recipient_id: id,
-            user_id: userId
-        };
+        const data = { req_recipient_id: id, user_id: userId };
 
         await api.post('/api/friendship/request/', data)
             .then(res => {
-                if(res.data.success)
+                if(res.data.success) {
+                    item.friend_request_status = 'sent';
+
                     setRecipientRequestId(id);
+                }
             })
             .catch(error => {
                 setRecipientRequestId(-1);
+
                 console.log(error.data);
+                // implements error handling...
             });
     }
 
@@ -48,11 +74,12 @@ export default function FriendRequestList(props) {
                     </p>
 
                     {
-                        label === 'pending' ?
+                        item.friend_request_status === 'pending' && friend === -1 ?
                             <div className="pending-request-buttons-box">
                                 <button
                                     className="accept-request-button"
                                     title={`Accept ${item.user_name}'s friend request`}
+                                    onClick={event => acceptFriendRequest(event, item.user_id, item.req_recipient_id)}
                                 >
                                     Accept
                                 </button>
@@ -64,7 +91,7 @@ export default function FriendRequestList(props) {
                                     Reject
                                 </button>
                             </div>
-                        : label === 'add' ?
+                        : item.friend_request_status === 'add' ?
                             <button
                                 className="btn-search-result-add"
                                 title="Send friend request"
@@ -73,12 +100,12 @@ export default function FriendRequestList(props) {
                                 <IoMdPersonAdd size="14" />
                                 <span>Add</span>
                             </button>
-                        : label === 'sent' ?
+                        : item.friend_request_status === 'sent' ?
                             <span className="contact-request-sent">
                                 Request sent
                                 <AiOutlineCheckCircle size="19" />
                             </span>
-                        : label === 'friends' ?
+                        : item.friend_request_status === 'friends' || friend === item.req_recipient_id ?
                             <span className="contact-request-sent">
                                 Friends
                                 <AiOutlineCheckCircle size="19" />

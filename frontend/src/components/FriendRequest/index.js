@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import './styles.css';
 
-import { useUserContext } from '../../context/UserContext';
 import { api } from '../../services/api';
+import { useUserContext } from '../../context/UserContext';
 import FriendRequestList from '../FriendRequestList';
 
 export function FriendRequest() {
@@ -51,7 +51,11 @@ export function FriendRequest() {
                     resultList.length === 0 ?
                         <p className="nothing-found-message">You don't have any friend requests yet.</p>
                     :
-                        resultList.map(item => <FriendRequestList key={item.user_id} item={item} label={"pending"} />)
+                        resultList.map(item => {
+                            item.friend_request_status = 'pending';
+
+                            return <FriendRequestList key={item.user_id} item={item} />
+                        })
                 }
             </div>
         </div>

@@ -22,6 +22,7 @@ routes.get('/api/user/get/id/:user_id', checkRequestAuthentication, UserControll
 routes.put('/api/user/profile/update/', checkRequestAuthentication, UserController.update);
 
 // CONTACTS CONTROLLER
+routes.post('/api/contacts/', checkRequestAuthentication, ContactsController.create);
 routes.get('/api/contacts/:user_id', checkRequestAuthentication, ContactsController.getById);
 
 // REQUESTS CONTROLLER

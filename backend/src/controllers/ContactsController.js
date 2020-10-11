@@ -2,9 +2,15 @@ const connection = require('../config/connection');
 
 module.exports = {
     getById(request, response) {
-        const sqlGetAll = "SELECT * from contact WHERE user_id = ?";
+        const { user_id } = request.params;
 
-        connection.query(sqlGetAll, [request.params.user_id], (err, results, fields) => {
+        const sqlGetAll = `
+            SELECT u.user_id, user_name, user_nick
+            FROM user u, contact c
+            WHERE (c.user_id = u.user_id XOR c.contact_id = u.user_id) AND (c.user_id = ? XOR c.contact_id = ?) 
+        `;
+
+        connection.query(sqlGetAll, [user_id, user_id], (err, results, fields) => {
             if(err) {
                 return response.status(500).send({
                     success: false,
@@ -24,6 +30,70 @@ module.exports = {
                 success: true,
                 message: "Contacts were found!",
                 results
+            });
+        });
+    },
+
+    create(request, response) {
+        const { user_id, contact_id } = request.body;
+
+        connection.beginTransaction(err => {
+            if(err) {
+                return response.status(500).send({
+                    success: false,
+                    message: "Server error creating this contact: " + err
+                });
+            }
+
+            const sqlDeleteFriendRequest = "DELETE FROM request WHERE user_id = ? AND req_recipient_id = ?";
+            const sqlDeleteFriendRequestArgs = [user_id, contact_id];
+
+            connection.query(sqlDeleteFriendRequest, sqlDeleteFriendRequestArgs, (err, results, fields) => {
+                if(err) {
+                    console.log('deu erro aquiii 1');
+                    connection.rollback(() => {
+                        throw err;
+                    });
+                }
+
+                const sqlInsertContact = `
+                    INSERT INTO contact(contact_id, contact_friendship_since, user_id)
+                        VALUES(?, ?, ?);
+                `;
+
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = (now.getMonth() < 10 ? "0" + (now.getMonth() + 1) : (now.getMonth() + 1));
+                const day = (now.getDate() < 10 ? "0" + now.getDate() : now.getDate());
+                const contact_friendship_since = year + "-" + month + "-" + day + " " + now.toLocaleTimeString();
+
+                const sqlInsertContactArgs = [
+                    contact_id,
+                    contact_friendship_since,
+                    user_id
+                ];
+
+                connection.query(sqlInsertContact, sqlInsertContactArgs, (err, results, fields) => {
+                    if(err) {
+                        console.log('deu erro aquiii 2');
+                        connection.rollback(() => {
+                            throw err;
+                        });
+                    }
+
+                    connection.commit(err => {
+                        if(err) {
+                            connection.rollback(() => {
+                                throw err;
+                            });
+                        }
+
+                        return response.status(200).send({
+                            success: true,
+                            message: "The contact was successfully created!"
+                        });
+                    });
+                });
             });
         });
     }

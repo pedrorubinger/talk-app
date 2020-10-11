@@ -41,7 +41,7 @@ const checkCredentials = async (user_nick, user_password) => {
                 });
             }
 
-            const match = results[0] ?
+            const match = results[0] !== undefined && results[0] !== null ?
                 await bcrypt.compare(user_password, results[0].user_password) : false;
 
             if(!match) {
@@ -152,7 +152,7 @@ module.exports = {
             if(err) {
                 return response.status(500).send({
                     success: false,
-                    message: "Error trying to sign in: " + err
+                    message: "Login Failed! Server Error!"
                 });
             }
         });

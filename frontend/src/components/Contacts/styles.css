@@ -33,6 +33,13 @@
     border: 1px solid rgb(199, 199, 199);
 }
 
+#contacts-content #profile-contacts-list ul li .profile-contacts-info-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 #contacts-content #profile-contacts-list ul li .profile-contacts-info-group {
     margin: auto 10px;
     font-size: .75rem;

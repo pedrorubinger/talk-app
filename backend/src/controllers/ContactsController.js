@@ -50,7 +50,6 @@ module.exports = {
 
             connection.query(sqlDeleteFriendRequest, sqlDeleteFriendRequestArgs, (err, results, fields) => {
                 if(err) {
-                    console.log('deu erro aquiii 1');
                     connection.rollback(() => {
                         throw err;
                     });
@@ -75,7 +74,6 @@ module.exports = {
 
                 connection.query(sqlInsertContact, sqlInsertContactArgs, (err, results, fields) => {
                     if(err) {
-                        console.log('deu erro aquiii 2');
                         connection.rollback(() => {
                             throw err;
                         });
@@ -94,6 +92,34 @@ module.exports = {
                         });
                     });
                 });
+            });
+        });
+    },
+
+    delete(request, response) {
+        const { user_id, contact_id } = request.params;
+        const sqlDeleteContact = `
+            DELETE FROM contact
+            WHERE (user_id = ? and contact_id = ?) OR (user_id = ? AND contact_id = ?);
+        `;
+        const deleteContactArgs = [
+            Number(user_id),
+            Number(contact_id),
+            Number(contact_id),
+            Number(user_id),
+        ];
+
+        connection.query(sqlDeleteContact, deleteContactArgs, (err, results, fields) => {
+            if(err) {
+                return response.status(500).send({
+                    success: false,
+                    message: "Error when delete contacts: " + err
+                });
+            }
+
+            return response.status(200).send({
+                success: true,
+                message: "The contact was successfully deleted!"
             });
         });
     }

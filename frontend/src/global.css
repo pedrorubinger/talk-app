@@ -99,3 +99,13 @@ p.nothing-found-message {
   font-size: 17px;
   text-align: center;
 }
+
+svg.delete-icon {
+  color: rgb(196, 56, 56);
+  transition: .5s;
+}
+
+svg.delete-icon:hover {
+  color: rgb(253, 18, 18);
+  cursor: pointer;
+}

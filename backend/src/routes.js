@@ -24,6 +24,7 @@ routes.put('/api/user/profile/update/', checkRequestAuthentication, UserControll
 // CONTACTS CONTROLLER
 routes.post('/api/contacts/', checkRequestAuthentication, ContactsController.create);
 routes.get('/api/contacts/:user_id', checkRequestAuthentication, ContactsController.getById);
+routes.delete('/api/contacts/delete/:user_id&:contact_id', checkRequestAuthentication, ContactsController.delete);
 
 // REQUESTS CONTROLLER
 routes.post('/api/friendship/request/', checkRequestAuthentication, RequestsController.create);
